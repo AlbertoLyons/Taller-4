@@ -8,7 +8,7 @@ public class Main {
 
         SistemaImpl sistema = new SistemaImpl();
         sistema.inicio();
-        sistema.despliegue();
+        sistema.menuPrincipal();
 
     }
 }

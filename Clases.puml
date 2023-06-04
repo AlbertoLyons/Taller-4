@@ -6,41 +6,35 @@ package models {
      - primerTipo: String
      - segundoTipo: String
      - Pokemon(id: int, nombre: String, \nprimerTipo: String, segundoTipo: String)
-     + get's() & set's()
+     + get's()
     }
     class Basico {
      - primeraEvolucion: String
-     + Basico(id: int, nombre: String, primeraEvolucion: String,\nprimerTipo: String, segundoTipo: String)
-     + get's() & set's()
+     - segundaEvolucion: String
+     + Basico(id: int, nombre: String, primeraEvolucion: String, segundaEvolucion: String\nprimerTipo: String, segundoTipo: String)
+     + get's()
     }
     class PrimerEvolucion {
      - basico: String
      - segundaEvolucion String
      + PrimerEvolucion(id: int, nombre: String, segundaEvolucion: String,\n basico: String primerTipo: String, segundoTipo: String)
-     + get's() & set's()
+     + get's()
     }
     class SegundaEvolucion {
      - primeraEvolucion: String
      - basico: String
      + SegundaEvolucion(id: int, nombre: String, primeraEvolucion: String,\nbasico: String primerTipo: String, segundoTipo: String,)
-     + get's() & set's()
+     + get's()
     }
     class NodoDoble {
-     - cabeza: NodoDoble
-     - cola: NodoDoble
-     - siguiente: NodoDoble
-     - anterior: NodoDoble
-     - pokemon: Pokemon
      + NodoDoble()
-     + get's() & set's()
+     + get's()
     }
-    class ListaNodoDobleCircular {
+    class ListaNodoDoble {
      + listaNodoDobleCircular()
      + agregar(posicion: int, pokemon: Pokemon): boolean
      + obtener(posicion: int): Pokemon
      + posicion(pokemon: Pokemon): int
-     + eliminar(posicion: int): boolean
-     + vaciar(): void
     }
 }
 package services {
@@ -58,16 +52,16 @@ package services {
 }
 
 SistemaImpl .left|> Sistema
-SistemaImpl -right> ListaNodoDobleCircular: administra
-ListaNodoDobleCircular *-right-> NodoDoble : cabeza: Nodo
-ListaNodoDobleCircular *-right-> NodoDoble : cola: Nodo
-NodoDoble o-> "1"NodoDoble : siguiente: Nodo
-NodoDoble o-> "1"NodoDoble : anterior: Nodo
+SistemaImpl -right> ListaNodoDoble: administra
+ListaNodoDoble *-right-> NodoDoble : - cabeza: Nodo
+ListaNodoDoble *-right-> NodoDoble : - cola: Nodo
+NodoDoble o-> "1"NodoDoble : - siguiente: NodoDoble
+NodoDoble o-> "1"NodoDoble : - anterior: NodoDoble
 Basico -up-|> Pokemon
 PrimerEvolucion -up-|> Pokemon
 SegundaEvolucion -up-|> Pokemon
 
 
-NodoDoble -down-> Pokemon : pokemon: Pokemon
+NodoDoble -down-> Pokemon : - pokemon: Pokemon
 
 @enduml

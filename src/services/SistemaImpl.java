@@ -1,12 +1,9 @@
 package services;
 
 import models.*;
-import ucn.ArchivoEntrada;
-import ucn.Registro;
-import ucn.StdOut;
+import ucn.*;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class SistemaImpl implements Sistema{
 
@@ -81,10 +78,97 @@ public class SistemaImpl implements Sistema{
         }
         archEnt.close();
     }
+    public void menuPrincipal() {
+        String opcion = "";
+        while (!opcion.equals("6")){
+            StdOut.println("---POKEDEX REGIONAL DE KANTO---\n" +
+                    "Opciones a elegir:\n" +
+                    "1. Buscar pokemons por rango de ID\n" +
+                    "2. Desplegar todos los pokemon\n" +
+                    "3. Desplegar pokemons dados un tipo\n" +
+                    "4. Desplegar pokemons de primera evolucion\n" +
+                    "5. Busqueda personalizada\n" +
+                    "6. Salir");
 
-    public void despliegue(){
+            StdOut.print("Escoja una opcion: ");
+            opcion =  StdIn.readString();
+            switch (opcion){
+                case "1" -> this.desplegarPorRangosId();
+                case "2" -> this.desplegarTodosAlfabeticamente();
+                case "3" -> this.desplegarCoincideTipoIdDecreciente();
+                case "4" -> this.desplegarPrimeraEvolucion();
+                case "5" -> this.busquedaPersonalizada();
+                case "6" -> StdOut.println("Saliendo...");
+                default -> StdOut.println("Opcion no valida, intente nuevamente\n");
+            }
+        }
+    }
+    public void buscarID() {
+        StdOut.println("Ingrese ID el pokemon a buscar: ");
+        String id = StdIn.readString();
+        if (pokedex.contieneID(id)) {
+            StdOut.println("Encontrado");
+        }
+        else {
+            StdOut.println("No encontrado");
+        }
+    }
+    public void buscarNombre() {
+        StdOut.println("Ingrese nombre el pokemon a buscar: ");
+        String nombre = StdIn.readString();
+        if (pokedex.contieneNombre(nombre)) {
+            StdOut.println("Encontrado");
+        }
+        else {
+            StdOut.println("No encontrado");
+        }
 
-        pokedex.despliegue();
     }
 
+    @Override
+    //FALTA VERIFICADOR DE INT
+    public void desplegarPorRangosId() {
+        StdOut.println("---BUSQUEDA POR RANGOS---");
+
+        StdOut.println("Escriba un rango de ID (Ejemplo: desde el 1 hasta el 151, o desde el 60 hasta el 70):");
+
+        StdOut.println("Desde: ");
+        int desde = StdIn.readInt();
+        StdOut.println("Hasta: ");
+        int hasta = StdIn.readInt();
+
+        if (desde > hasta) {
+            int aux = desde;
+            desde = hasta;
+            hasta = aux;
+        }
+        StdOut.println(desde);
+        StdOut.println(hasta);
+        for (int i = 0; i < hasta+1; i++) {
+            String id = Integer.toString(i);
+            pokedex.desplegarID(id);
+        }
+
+
+    }
+
+    @Override
+    public void desplegarTodosAlfabeticamente() {
+
+    }
+
+    @Override
+    public void desplegarCoincideTipoIdDecreciente() {
+
+    }
+
+    @Override
+    public void desplegarPrimeraEvolucion() {
+
+    }
+
+    @Override
+    public void busquedaPersonalizada() {
+
+    }
 }
