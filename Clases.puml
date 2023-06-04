@@ -9,17 +9,20 @@ package models {
      + get's() & set's()
     }
     class Basico {
-     - primerTipo: String
-     + Basico(id: int, nombre: String, \nprimerTipo: String, segundoTipo: String)
+     - primeraEvolucion: String
+     + Basico(id: int, nombre: String, primeraEvolucion: String,\nprimerTipo: String, segundoTipo: String)
      + get's() & set's()
     }
-    abstract class PrimerEvolucion {
-     - evolucionPrevia: String
-     + PrimerEvolucion(id: int, nombre: String, \nprimerTipo: String, segundoTipo: String, evolucionPrevia: String)
+    class PrimerEvolucion {
+     - basico: String
+     - segundaEvolucion String
+     + PrimerEvolucion(id: int, nombre: String, segundaEvolucion: String,\n basico: String primerTipo: String, segundoTipo: String)
      + get's() & set's()
     }
     class SegundaEvolucion {
-     + SegundaEvolucion(id: int, nombre: String,\nprimerTipo: String, segundoTipo: String, evolucionPrevia: String)
+     - primeraEvolucion: String
+     - basico: String
+     + SegundaEvolucion(id: int, nombre: String, primeraEvolucion: String,\nbasico: String primerTipo: String, segundoTipo: String,)
      + get's() & set's()
     }
     class NodoDoble {
@@ -62,7 +65,7 @@ NodoDoble o-> "1"NodoDoble : siguiente: Nodo
 NodoDoble o-> "1"NodoDoble : anterior: Nodo
 Basico -up-|> Pokemon
 PrimerEvolucion -up-|> Pokemon
-SegundaEvolucion -up-|> PrimerEvolucion
+SegundaEvolucion -up-|> Pokemon
 
 
 NodoDoble -down-> Pokemon : pokemon: Pokemon

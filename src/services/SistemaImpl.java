@@ -3,6 +3,7 @@ package services;
 import models.*;
 import ucn.ArchivoEntrada;
 import ucn.Registro;
+import ucn.StdOut;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -11,10 +12,14 @@ public class SistemaImpl implements Sistema{
 
     private ListaNodoDoble pokedex;
 
+    public SistemaImpl() {
+        this.pokedex = new ListaNodoDoble();
+    }
+
     public void inicio() throws IOException {
 
         ArchivoEntrada archEnt = new ArchivoEntrada("kanto.txt");
-        Pokemon pokemonLectura;
+        Pokemon pokemonLectura = null;
 
         while (!archEnt.isEndFile()) {
 
@@ -25,31 +30,38 @@ public class SistemaImpl implements Sistema{
             String etapa = regEnt.getString();
             switch (etapa) {
                 case "Basico" -> {
-                    String primerEvolucion = regEnt.getString();
+                    String primerEvolucion = null;
+                    if (pokemonLectura.equals("Eevee")){
+                        String primerEvolucion1 = regEnt.getString();
+                        String primerEvolucion2 = regEnt.getString();
+                        String primerEvolucion3 = regEnt.getString();
+                        primerEvolucion = primerEvolucion1;
+                    }else {
+                        primerEvolucion = regEnt.getString();
+                    }
                     String primerTipo = regEnt.getString();
                     String segundoTipo = regEnt.getString();
                     pokemonLectura = new Basico(id, pokemon, primerEvolucion, primerTipo, segundoTipo);
-                    this.pokedex.agregar(pokemonLectura);
-
                 }
                 case "Primera Evolucion" -> {
                     String segundaEvolucion = regEnt.getString();
                     String basico = regEnt.getString();
                     String primerTipo = regEnt.getString();
                     String segundoTipo = regEnt.getString();
-                    pokemonLectura = new PrimeraEvolucion(id, pokemon, primerTipo, segundoTipo, segundaEvolucion, basico);
+                    pokemonLectura = new PrimeraEvolucion(id, pokemon, segundaEvolucion, basico, primerTipo, segundoTipo);
                 }
                 case "Segunda Evolucion" -> {
                     String primeraEvolucion = regEnt.getString();
                     String basico = regEnt.getString();
                     String primerTipo = regEnt.getString();
                     String segundoTipo = regEnt.getString();
-                    pokemonLectura = new SegundaEvolucion(id, pokemon, primerTipo, segundoTipo, primeraEvolucion, basico);
+                    pokemonLectura = new SegundaEvolucion(id, pokemon, primeraEvolucion, basico, primerTipo, segundoTipo);
                 }
 
             }
-            archEnt.close();
-
+            this.pokedex.agregar(pokemonLectura);
         }
+        archEnt.close();
     }
+
 }

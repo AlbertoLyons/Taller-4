@@ -5,7 +5,7 @@ public class PrimeraEvolucion extends Pokemon{
     private String basico;
     private String segundaEvolucion;
 
-    public PrimeraEvolucion(String id, String nombre, String primerTipo, String segundoTipo, String segundaEvolucion, String basico) {
+    public PrimeraEvolucion(String id, String nombre, String segundaEvolucion, String basico, String primerTipo, String segundoTipo) {
         super(nombre, id, primerTipo, segundoTipo);
         this.basico = basico;
         this.segundaEvolucion = segundaEvolucion;
