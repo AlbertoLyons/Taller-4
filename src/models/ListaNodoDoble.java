@@ -1,5 +1,7 @@
 package models;
 
+import ucn.StdOut;
+
 public class ListaNodoDoble {
 
     private NodoDoble cabeza;
@@ -26,14 +28,51 @@ public class ListaNodoDoble {
 
         return true;
     }
+    
+    public void despliegue(){
 
-    public String desplieguePrueba(){
-
-        StringBuilder sb = new StringBuilder();
         for (NodoDoble aux = this.cabeza; aux != null; aux = aux.getSiguiente()){
-            sb.append(aux.getPokemon().toString()).append(",");
+            int contador = 1;
+
+            StdOut.println("////// POKEMON " + contador +" //////");
+            Pokemon pokemon = aux.getPokemon();
+            StdOut.println("ID: " + pokemon.getId());
+            StdOut.println("NOMBRE: " + pokemon.getNombre());
+            
+            if (pokemon instanceof Basico){
+                StdOut.println("PRIMER EVOLUCION: " + ((Basico) pokemon).getPrimerEvolucion());
+
+                if (pokemon.getPrimerTipo().equals(pokemon.getSegundoTipo())){
+                    StdOut.println("TIPO: " + pokemon.getPrimerTipo());
+                }else {
+                    StdOut.println("PRIMER TIPO: " + pokemon.getPrimerTipo());
+                    StdOut.println("SEGUNDO TIPO: " + pokemon.getSegundoTipo());
+                }
+            } else if (pokemon instanceof PrimeraEvolucion) {
+                StdOut.println("SEGUNDA EVOLUCION: " + ((PrimeraEvolucion) pokemon).getSegundaEvolucion());
+                StdOut.println("POKEMON BASICO: " + ((PrimeraEvolucion) pokemon).getBasico());
+
+                if (pokemon.getPrimerTipo().equals(pokemon.getSegundoTipo())){
+                    StdOut.println("TIPO: " + pokemon.getPrimerTipo());
+                }else {
+                    StdOut.println("PRIMER TIPO: " + pokemon.getPrimerTipo());
+                    StdOut.println("SEGUNDO TIPO: " + pokemon.getSegundoTipo());
+                }
+                
+            } else if (pokemon instanceof SegundaEvolucion) {
+                StdOut.println("PRIMERA EVOLUCION: " + ((SegundaEvolucion) pokemon).getPrimeraEvolucion());
+                StdOut.println("POKEMON BASICO: " + ((SegundaEvolucion) pokemon).getBasico());
+
+                if (pokemon.getPrimerTipo().equals(pokemon.getSegundoTipo())){
+                    StdOut.println("TIPO: " + pokemon.getPrimerTipo());
+                }else {
+                    StdOut.println("PRIMER TIPO: " + pokemon.getPrimerTipo());
+                    StdOut.println("SEGUNDO TIPO: " + pokemon.getSegundoTipo());
+                }
+            }
+            StdOut.println("");
+            contador++;
         }
-        return sb.toString();
     }
 
 }

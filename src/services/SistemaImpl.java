@@ -31,11 +31,11 @@ public class SistemaImpl implements Sistema{
             switch (etapa) {
                 case "Basico" -> {
                     String primerEvolucion = null;
-                    if (pokemonLectura.equals("Eevee")){
+                    if (pokemon.equals("Eevee")){
                         String primerEvolucion1 = regEnt.getString();
                         String primerEvolucion2 = regEnt.getString();
                         String primerEvolucion3 = regEnt.getString();
-                        primerEvolucion = primerEvolucion1;
+                        primerEvolucion = primerEvolucion1 + ", " + primerEvolucion2 + ", " + primerEvolucion3;
                     }else {
                         primerEvolucion = regEnt.getString();
                     }
@@ -62,6 +62,11 @@ public class SistemaImpl implements Sistema{
             this.pokedex.agregar(pokemonLectura);
         }
         archEnt.close();
+    }
+
+    public void despliegue(){
+
+        pokedex.despliegue();
     }
 
 }

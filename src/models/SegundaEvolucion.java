@@ -10,4 +10,12 @@ public class SegundaEvolucion extends Pokemon {
         this.basico = basico;
         this.primeraEvolucion = primeraEvolucion;
     }
+
+    public String getPrimeraEvolucion() {
+        return primeraEvolucion;
+    }
+
+    public String getBasico() {
+        return basico;
+    }
 }
