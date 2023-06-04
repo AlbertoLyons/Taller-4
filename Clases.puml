@@ -1,59 +1,70 @@
 @startuml
-
-abstract class Pokemon {
- - nombre: String
- - id: int
- - tipo1: String
- - tipo2: String
+package models {
+    abstract class Pokemon {
+     - nombre: String
+     - id: String
+     - primerTipo: String
+     - segundoTipo: String
+     - Pokemon(id: int, nombre: String, \nprimerTipo: String, segundoTipo: String)
+     + get's() & set's()
+    }
+    class Basico {
+     - primerTipo: String
+     + Basico(id: int, nombre: String, \nprimerTipo: String, segundoTipo: String)
+     + get's() & set's()
+    }
+    abstract class PrimerEvolucion {
+     - evolucionPrevia: String
+     + PrimerEvolucion(id: int, nombre: String, \nprimerTipo: String, segundoTipo: String, evolucionPrevia: String)
+     + get's() & set's()
+    }
+    class SegundaEvolucion {
+     + SegundaEvolucion(id: int, nombre: String,\nprimerTipo: String, segundoTipo: String, evolucionPrevia: String)
+     + get's() & set's()
+    }
+    class NodoDoble {
+     - cabeza: NodoDoble
+     - cola: NodoDoble
+     - siguiente: NodoDoble
+     - anterior: NodoDoble
+     - pokemon: Pokemon
+     + NodoDoble()
+     + get's() & set's()
+    }
+    class ListaNodoDobleCircular {
+     + listaNodoDobleCircular()
+     + agregar(posicion: int, pokemon: Pokemon): boolean
+     + obtener(posicion: int): Pokemon
+     + posicion(pokemon: Pokemon): int
+     + eliminar(posicion: int): boolean
+     + vaciar(): void
+    }
+}
+package services {
+    interface Sistema {
+     + desplegarPorRangosId(): void
+     + desplegarTodosAlfabeticamente(): void
+     + desplegarCoincideTipoIdDecreciente(): void
+     + desplegarPrimeraEvolucion(): void
+     + busquedaPersonalizada(): void
+    }
+    class SistemaImpl {
+     + SistemaImpl()
+     + desplegarporBusqueda(): void
+    }
 }
 
-class Basico {
- + Basico(nombre: String, id: int,\ntipo1: String, tipo2: String)
- + get's() & set's()
-}
-abstract class PrimerEvolucion {
- - evolucionPrevia: String
- + PrimerEvolucion(nombre: String, id: int,\ntipo1: String, tipo2: String, evolucionPrevia: String)
-}
-class SegundaEvolucion {
- + SegundaEvolucion(nombre: String, id: int,\ntipo1: String, tipo2: String, evolucionPrevia: String)
-}
-class NodoDoble {
- - cabeza: NodoDoble
- - cola: NodoDoble
- - siguiente: NodoDoble
- - anterior: NodoDoble
- - pokemon: Pokemon
- + NodoDoble()
- + get's() & set's()
-}
-class ListaNodoDobleCircular {
- + listaNodoDobleCircular()
- + agregar(posicion: int, pokemon: Pokemon): boolean
- + obtener(posicion: int): Pokemon
- + posicion(pokemon: Pokemon): int
- + eliminar(posicion: int): boolean
- + vaciar(): void
-}
-interface Sistema {
- + desplegarPorRangosId(): void
- + desplegarTodosAlfabeticamente(): void
- + desplegarCoincideTipoIdDecreciente(): void
- + desplegarPrimeraEvolucion(): void
- + busquedaPersonalizada(): void
-}
-class SistemaImpl {
- + SistemaImpl()
- + desplegarporBusqueda(): void
-}
-SistemaImpl .|> Sistema
-Basico -|> Pokemon
-PrimerEvolucion --|> Pokemon
-SegundaEvolucion -|> PrimerEvolucion
+SistemaImpl .left|> Sistema
+SistemaImpl -right> ListaNodoDobleCircular: administra
+ListaNodoDobleCircular *-right-> NodoDoble : cabeza: Nodo
+ListaNodoDobleCircular *-right-> NodoDoble : cola: Nodo
 NodoDoble o-> "1"NodoDoble : siguiente: Nodo
 NodoDoble o-> "1"NodoDoble : anterior: Nodo
-ListaNodoDobleCircular *--> NodoDoble : cabeza: Nodo
-ListaNodoDobleCircular *--> NodoDoble : cola: Nodo
-NodoDoble --> Pokemon : pokemon: Pokemon
+Basico -up-|> Pokemon
+PrimerEvolucion -up-|> Pokemon
+SegundaEvolucion -up-|> PrimerEvolucion
+
+
+NodoDoble -down-> Pokemon : pokemon: Pokemon
 
 @enduml

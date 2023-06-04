@@ -1,0 +1,8 @@
+validacion de tener minimo 1 y maximo 2 tipos.
+validacion segunda evolucion, para este se necesita una primer evolucion.
+metodo para ordenar lista por id en orden creciente(menor a mayor).
+metodo desplegar pokemons alfabeticamente.
+metodo desplegar por tipo.
+metodo desplegar pokemones primera evolucion
+    en base a este metodo crear otro metodo que que ordene decreciente(mayor a menor)
+metodo busqueda.
