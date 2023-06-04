@@ -30,24 +30,42 @@ public class SistemaImpl implements Sistema{
             String etapa = regEnt.getString();
             switch (etapa) {
                 case "Basico" -> {
-                    String primerEvolucion = null;
+                    String primerEvolucion;
+                    String segundaEvolucion;
                     if (pokemon.equals("Eevee")){
                         String primerEvolucion1 = regEnt.getString();
                         String primerEvolucion2 = regEnt.getString();
                         String primerEvolucion3 = regEnt.getString();
                         primerEvolucion = primerEvolucion1 + ", " + primerEvolucion2 + ", " + primerEvolucion3;
+
                     }else {
                         primerEvolucion = regEnt.getString();
                     }
+
+                    segundaEvolucion = regEnt.getString();
                     String primerTipo = regEnt.getString();
                     String segundoTipo = regEnt.getString();
-                    pokemonLectura = new Basico(id, pokemon, primerEvolucion, primerTipo, segundoTipo);
+
+                    if (segundoTipo == null) {
+                        segundoTipo = primerTipo;
+                        primerTipo = segundaEvolucion;
+                        segundaEvolucion = null;
+                    }
+
+                    pokemonLectura = new Basico(id, pokemon, primerEvolucion, segundaEvolucion, primerTipo, segundoTipo);
                 }
                 case "Primera Evolucion" -> {
                     String segundaEvolucion = regEnt.getString();
                     String basico = regEnt.getString();
                     String primerTipo = regEnt.getString();
                     String segundoTipo = regEnt.getString();
+                    if (segundoTipo == null) {
+                        segundoTipo = primerTipo;
+                        primerTipo = basico;
+                        basico = segundaEvolucion;
+                        segundaEvolucion = null;
+
+                    }
                     pokemonLectura = new PrimeraEvolucion(id, pokemon, segundaEvolucion, basico, primerTipo, segundoTipo);
                 }
                 case "Segunda Evolucion" -> {

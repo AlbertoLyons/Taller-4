@@ -23,7 +23,7 @@
 3,Venusaur,Segunda Evolucion,Ivysaur,Bulbasaur,Hierba,Veneno
 10,Caterpie,Basico,Metapod,Butterfree,Insecto,Insecto
 9,Blastoise,Segunda Evolucion,Wartortle,Squirtle,Agua,Agua
-18,Pidgeot,Segunda Evolucione,Pidgeotto,Pidgey,Normal,Volador
+18,Pidgeot,Segunda Evolucion,Pidgeotto,Pidgey,Normal,Volador
 4,Charmander,Basico,Charmeleon,Charizard,Fuego,Fuego
 20,Raticate,Primera Evolucion,Rattata,Normal,Normal
 21,Spearow,Basico,Fearow,Normal,Volador

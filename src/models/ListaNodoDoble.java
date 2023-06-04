@@ -30,9 +30,10 @@ public class ListaNodoDoble {
     }
     
     public void despliegue(){
+        int contador = 1;
 
-        for (NodoDoble aux = this.cabeza; aux != null; aux = aux.getSiguiente()){
-            int contador = 1;
+        for (NodoDoble aux = this.cola; aux != null; aux = aux.getAnterior()){
+
 
             StdOut.println("////// POKEMON " + contador +" //////");
             Pokemon pokemon = aux.getPokemon();
@@ -40,8 +41,12 @@ public class ListaNodoDoble {
             StdOut.println("NOMBRE: " + pokemon.getNombre());
             
             if (pokemon instanceof Basico){
-                StdOut.println("PRIMER EVOLUCION: " + ((Basico) pokemon).getPrimerEvolucion());
-
+                if (((Basico) pokemon).getPrimerEvolucion() != null) {
+                    StdOut.println("PRIMER EVOLUCION: " + ((Basico) pokemon).getPrimerEvolucion());
+                }
+                if (((Basico) pokemon).getSegundaEvolucion() != null) {
+                    StdOut.println("SEGUNDA EVOLUCION: " + ((Basico) pokemon).getSegundaEvolucion());
+                }
                 if (pokemon.getPrimerTipo().equals(pokemon.getSegundoTipo())){
                     StdOut.println("TIPO: " + pokemon.getPrimerTipo());
                 }else {
@@ -49,7 +54,10 @@ public class ListaNodoDoble {
                     StdOut.println("SEGUNDO TIPO: " + pokemon.getSegundoTipo());
                 }
             } else if (pokemon instanceof PrimeraEvolucion) {
-                StdOut.println("SEGUNDA EVOLUCION: " + ((PrimeraEvolucion) pokemon).getSegundaEvolucion());
+                if (((PrimeraEvolucion) pokemon).getSegundaEvolucion() != null) {
+                    StdOut.println("SEGUNDA EVOLUCION: " + ((PrimeraEvolucion) pokemon).getSegundaEvolucion());
+                }
+
                 StdOut.println("POKEMON BASICO: " + ((PrimeraEvolucion) pokemon).getBasico());
 
                 if (pokemon.getPrimerTipo().equals(pokemon.getSegundoTipo())){
