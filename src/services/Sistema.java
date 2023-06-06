@@ -2,8 +2,8 @@ package services;
 
 public interface Sistema {
     void desplegarPorRangosId();
-     void desplegarTodosAlfabeticamente();
-     void desplegarCoincideTipoIdDecreciente();
+     void desplegarTodosLosPokemons();
+     void desplegarPorTipo();
      void desplegarPrimeraEvolucion();
      void busquedaPersonalizada();
 

@@ -6,30 +6,45 @@ public class ListaNodoDoble {
 
     private NodoDoble cabeza;
     private NodoDoble cola;
+    private int tamanio;
 
+    /**
+     * The constructor.
+     */
     public ListaNodoDoble() {
         this.cabeza = null;
         this.cola = null;
+        this.tamanio = 0;
     }
-
-    public boolean agregar(Pokemon pokemon){
-
+    /**
+     * @return the tamanio.
+     */
+    public int getTamanio() {
+        return tamanio;
+    }
+    /**
+     * Agrega un pokemon a la lista.
+     * @param pokemon
+     */
+    public void agregar(Pokemon pokemon){
         NodoDoble nuevoPokemon = new NodoDoble(pokemon);
 
         if (this.cabeza == null){
             this.cabeza = nuevoPokemon;
             this.cola = nuevoPokemon;
-            return true;
+            tamanio++;
+            return;
         }
-
         this.cabeza.setAnterior(nuevoPokemon);
         nuevoPokemon.setSiguiente(this.cabeza);
         this.cabeza = nuevoPokemon;
-
-        return true;
+        tamanio++;
     }
-    
-    public void despliegue(Pokemon pokemon){
+    /**
+     * Despliega la informacion de un pokemon dado un pokemon.
+     * @param pokemon
+     */
+    public void desplieguePokemon(Pokemon pokemon){
         StdOut.println("ID: " + pokemon.getId());
         StdOut.println("NOMBRE: " + pokemon.getNombre());
 
@@ -72,88 +87,30 @@ public class ListaNodoDoble {
             }
         }
         StdOut.println("");
-        /*
-        int contador = 1;
-
-        for (NodoDoble aux = this.cola; aux != null; aux = aux.getAnterior()){
-
-
-            StdOut.println("////// POKEMON " + contador +" //////");
-            Pokemon pokemon = aux.getPokemon();
-            StdOut.println("ID: " + pokemon.getId());
-            StdOut.println("NOMBRE: " + pokemon.getNombre());
-            
-            if (pokemon instanceof Basico){
-                if (((Basico) pokemon).getPrimerEvolucion() != null) {
-                    StdOut.println("PRIMER EVOLUCION: " + ((Basico) pokemon).getPrimerEvolucion());
-                }
-                if (((Basico) pokemon).getSegundaEvolucion() != null) {
-                    StdOut.println("SEGUNDA EVOLUCION: " + ((Basico) pokemon).getSegundaEvolucion());
-                }
-                if (pokemon.getPrimerTipo().equals(pokemon.getSegundoTipo())){
-                    StdOut.println("TIPO: " + pokemon.getPrimerTipo());
-                }else {
-                    StdOut.println("PRIMER TIPO: " + pokemon.getPrimerTipo());
-                    StdOut.println("SEGUNDO TIPO: " + pokemon.getSegundoTipo());
-                }
-            } else if (pokemon instanceof PrimeraEvolucion) {
-                if (((PrimeraEvolucion) pokemon).getSegundaEvolucion() != null) {
-                    StdOut.println("SEGUNDA EVOLUCION: " + ((PrimeraEvolucion) pokemon).getSegundaEvolucion());
-                }
-
-                StdOut.println("POKEMON BASICO: " + ((PrimeraEvolucion) pokemon).getBasico());
-
-                if (pokemon.getPrimerTipo().equals(pokemon.getSegundoTipo())){
-                    StdOut.println("TIPO: " + pokemon.getPrimerTipo());
-                }else {
-                    StdOut.println("PRIMER TIPO: " + pokemon.getPrimerTipo());
-                    StdOut.println("SEGUNDO TIPO: " + pokemon.getSegundoTipo());
-                }
-                
-            } else if (pokemon instanceof SegundaEvolucion) {
-                StdOut.println("PRIMERA EVOLUCION: " + ((SegundaEvolucion) pokemon).getPrimeraEvolucion());
-                StdOut.println("POKEMON BASICO: " + ((SegundaEvolucion) pokemon).getBasico());
-
-                if (pokemon.getPrimerTipo().equals(pokemon.getSegundoTipo())){
-                    StdOut.println("TIPO: " + pokemon.getPrimerTipo());
-                }else {
-                    StdOut.println("PRIMER TIPO: " + pokemon.getPrimerTipo());
-                    StdOut.println("SEGUNDO TIPO: " + pokemon.getSegundoTipo());
-                }
-            }
-            StdOut.println("");
-            contador++;
-        }
-
-         */
     }
-    public boolean contieneID(String id) {
-        NodoDoble actual = this.cola;
-
-        while(actual != null){
-            if (actual.getPokemon().getId().equalsIgnoreCase(id)){
-                return true;
-            }
-            actual = actual.getAnterior();
-        }
-        return false;
-
-    }
+    /**
+     * Despliegue de la informacion de un pokemon dado su id.
+     * @param id
+     */
     public void desplegarID(String id) {
         NodoDoble actual = this.cola;
         while (actual != null) {
             if (actual.getPokemon().getId().equalsIgnoreCase(id)) {
-                despliegue(actual.getPokemon());
+                desplieguePokemon(actual.getPokemon());
             }
             actual = actual.getAnterior();
         }
-
     }
-    public boolean contieneNombre(String nombre) {
+    /**
+     * Busca si existe un pokemon dado un ID.
+     * @param id
+     * @return true or false.
+     */
+    public boolean contieneID(String id) {
         NodoDoble actual = this.cola;
 
         while(actual != null){
-            if (actual.getPokemon().getNombre().equalsIgnoreCase(nombre)){
+            if (actual.getPokemon().getId().equals(id)){
                 return true;
             }
             actual = actual.getAnterior();
@@ -161,5 +118,82 @@ public class ListaNodoDoble {
         return false;
 
     }
+    /**
+     * Busca un pokemon dado el ID y lo retorna en caso de ser encontrado.
+     * @param id
+     * @return the pokemon.
+     */
+    public Pokemon obtenerPokemonPorId(String id){
+        NodoDoble actual = this.cola;
+        while (actual != null){
+            if (actual.getPokemon().getId().equals(id)){
+                return actual.getPokemon();
+            }
+            actual = actual.getAnterior();
+        }
+        return null;
+    }
+    /**
+     * Busca si existe un pokemon dado un nombre.
+     * @param nombre
+     * @return true or false.
+     */
+    public boolean contieneNombre(String nombre) {
+        NodoDoble actual = this.cola;
+
+        while(actual != null){
+            if (actual.getPokemon().getNombre().equals(nombre)){
+                return true;
+            }
+            actual = actual.getAnterior();
+        }
+        return false;
+    }
+    /**
+     * Busca un pokemon dado el nombre y lo retorna en caso de ser encontrado.
+     * @param nombre
+     * @return the pokemon.
+     */
+    public Pokemon obtenerPokemonPorNombre(String nombre){
+
+        NodoDoble actual = this.cola;
+        while (actual != null){
+            if (actual.getPokemon().getNombre().equals(nombre)){
+                return actual.getPokemon();
+            }
+            actual = actual.getAnterior();
+        }
+        return null;
+    }
+    /**
+     * Busca si existe un pokemon dado un tipo.
+     * @param tipo
+     * @return true or false
+     */
+    public boolean contieneTipo(String tipo){
+        NodoDoble actual = this.cola;
+
+        while(actual != null){
+            if (actual.getPokemon().getPrimerTipo().equals(tipo) || actual.getPokemon().getSegundoTipo().equals(tipo)){
+                return true;
+            }
+            actual = actual.getAnterior();
+        }
+        return false;
+    }
+    /**
+     * Despliega un pokemon dado un tipo.
+     * @param tipo
+     */
+    public void desplegarTipo(String tipo){
+        NodoDoble actual = this.cola;
+        while (actual != null) {
+            if (actual.getPokemon().getPrimerTipo().equals(tipo) || actual.getPokemon().getSegundoTipo().equals(tipo)) {
+                desplieguePokemon(actual.getPokemon());
+            }
+            actual = actual.getAnterior();
+        }
+    }
+
 
 }
