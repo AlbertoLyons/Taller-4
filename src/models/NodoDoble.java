@@ -20,6 +20,10 @@ public class NodoDoble {
         return pokemon;
     }
 
+    public void setPokemon(Pokemon pokemon) {
+        this.pokemon = pokemon;
+    }
+
     public NodoDoble getAnterior() {
         return anterior;
     }

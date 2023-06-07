@@ -22,6 +22,7 @@ public class ListaNodoDoble {
     public int getTamanio() {
         return tamanio;
     }
+
     /**
      * Agrega un pokemon a la lista.
      * @param pokemon
@@ -88,6 +89,7 @@ public class ListaNodoDoble {
         }
         StdOut.println("");
     }
+
     /**
      * Despliegue de la informacion de un pokemon dado su id.
      * @param id
@@ -101,6 +103,7 @@ public class ListaNodoDoble {
             actual = actual.getAnterior();
         }
     }
+
     /**
      * Busca si existe un pokemon dado un ID.
      * @param id
@@ -118,6 +121,7 @@ public class ListaNodoDoble {
         return false;
 
     }
+
     /**
      * Busca un pokemon dado el ID y lo retorna en caso de ser encontrado.
      * @param id
@@ -133,6 +137,7 @@ public class ListaNodoDoble {
         }
         return null;
     }
+
     /**
      * Busca si existe un pokemon dado un nombre.
      * @param nombre
@@ -149,6 +154,7 @@ public class ListaNodoDoble {
         }
         return false;
     }
+
     /**
      * Busca un pokemon dado el nombre y lo retorna en caso de ser encontrado.
      * @param nombre
@@ -165,6 +171,7 @@ public class ListaNodoDoble {
         }
         return null;
     }
+
     /**
      * Busca si existe un pokemon dado un tipo.
      * @param tipo
@@ -181,6 +188,7 @@ public class ListaNodoDoble {
         }
         return false;
     }
+
     /**
      * Despliega un pokemon dado un tipo.
      * @param tipo
@@ -195,5 +203,45 @@ public class ListaNodoDoble {
         }
     }
 
+    /**
+     * Ordena alfabeticamente la lista de nodo, intercambiado los pokemons de lugar.
+     */
+    public void ordenarAlfabeticamente(){
 
+        if (this.cabeza == null){
+            return;
+        }
+
+        if (this.cabeza.getSiguiente() == this.cabeza){
+            return;
+        }
+
+        boolean cambio = true;
+
+        while (cambio){
+            int iteracion = 0;
+            cambio = false;
+            for (NodoDoble i = this.cabeza; iteracion < this.tamanio; i=i.getSiguiente()){
+                if (i.getSiguiente() != null && (i.getPokemon().getNombre().compareTo(i.getSiguiente().getPokemon().getNombre())) > 0){
+                    Pokemon pokemon = i.getPokemon();
+                    i.setPokemon(i.getSiguiente().getPokemon());
+                    i.getSiguiente().setPokemon(pokemon);
+                    cambio = true;
+                }
+                iteracion++;
+            }
+        }
+    }
+
+    /**
+     * Recorre la lista hacia adelante, esta modificado para el requerimiento 2.
+     */
+    public void recorrerAdelante(){
+        NodoDoble aux = this.cabeza;
+        while(aux !=null){
+            desplieguePokemon(aux.getPokemon());
+            aux = aux.getSiguiente();
+        }
+        return;
+    }
 }

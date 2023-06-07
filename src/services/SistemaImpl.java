@@ -3,17 +3,26 @@ package services;
 import models.*;
 import ucn.*;
 
-import java.io.IOException;
+import java.io.*;
 
 public class SistemaImpl implements Sistema{
 
     private ListaNodoDoble pokedex;
 
+    /**
+     * The constructor.
+     */
     public SistemaImpl() {
         this.pokedex = new ListaNodoDoble();
     }
 
+    /**
+     * Lee el archivo txt y agrega pokemons a la lista.
+     * @throws IOException
+     */
     public void inicio() throws IOException {
+
+        this.ordenarArchivo();
 
         ArchivoEntrada archEnt = new ArchivoEntrada("kanto.txt");
         Pokemon pokemonLectura = null;
@@ -78,12 +87,52 @@ public class SistemaImpl implements Sistema{
         }
         archEnt.close();
     }
+
+    /**
+     * Algoritmo encargado de ordenar eliminar los espacios dentro del txt original y las lineas vacias.
+     */
+    public void ordenarArchivo(){
+
+        String nombreArchivoEntrada = "kantoDesordenado.txt";
+        String nombreArchivoSalida = "kanto.txt";
+
+        try {
+            FileReader fr = new FileReader(nombreArchivoEntrada);
+            BufferedReader br = new BufferedReader(fr);
+
+            FileWriter fw = new FileWriter(nombreArchivoSalida);
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                linea = linea.replaceAll("\\s*,\\s*", ","); // Eliminar espacios antes y después de las comas
+                linea = linea.trim(); // Eliminar espacios en blanco al principio y al final de la línea
+
+                if (!linea.isEmpty()) { // Ignorar líneas vacías
+                    bw.write(linea);
+                    bw.newLine(); // Agregar nueva línea al archivo de salida
+                }
+            }
+
+            br.close();
+            fr.close();
+            bw.close();
+            fw.close();
+
+        } catch (IOException e) {
+            System.err.println("Error al procesar el archivo: " + e.getMessage());
+        }
+
+    }
+
+    /**
+     * Despliegue de menu principal
+     */
     public void menuPrincipal() {
         String opcion = "";
         while (!opcion.equals("6")){
 
             StdOut.print("""
-                    
                   ----- ＰＯＫＥＤＥＸ ＲＥＧＩＯＮＡＬ ＤＥ ＫＡＮＴＯ --------------
                   -      [1] Buscar pokemons por rango de ID                  -  
                   -      [2] Desplegar todos los pokemons almacenados         - 
@@ -93,7 +142,7 @@ public class SistemaImpl implements Sistema{
                   -      [6] Salir                                            -
                   -------------------------------------------------------------
                     """);
-            StdOut.print("Escoja una opcion: ");
+            StdOut.print("Escoja un opcion: ");
             opcion =  StdIn.readString();
             StdOut.println("");
             switch (opcion){
@@ -109,7 +158,9 @@ public class SistemaImpl implements Sistema{
     }
 
     @Override
-    //FALTA VERIFICADOR DE INT
+    /**
+     * Despliega los pokemons dado un rango ingresado desde teclado.
+     */
     public void desplegarPorRangosId() {
         StdOut.println("----- BUSQUEDA DE POKEMONS POR RANGOS ------------------------------------------------");
         StdOut.println("Escriba un rango de ID (Ejemplo: desde el 1 hasta el 151, o desde el 60 hasta el 70):");
@@ -131,20 +182,26 @@ public class SistemaImpl implements Sistema{
         }
         StdOut.println("Desplegando pokemons desde el ID: " + desde + " hasta el ID: " + hasta);
         StdOut.println("---------------------------------------------------------------------------------------");
-        for (int i = desde-1; i < hasta+1; i++) {
+        for (int i = desde; i < hasta+1; i++) {
             String id = Integer.toString(i);
             pokedex.desplegarID(id);
         }
     }
     @Override
+    /**
+     * Despliega todos los pokemons almacenados en la lista.
+     */
     public void desplegarTodosLosPokemons() {
 
-        for (int i = 0; i <= pokedex.getTamanio() ; i++) {
-            String id = Integer.toString(i);
-            pokedex.desplegarID(id);
-        }
+        pokedex.ordenarAlfabeticamente();
+        StdOut.println("Desplegando todos los pokemons almacenados en la pokedex...");
+        StdOut.println("");
+        pokedex.recorrerAdelante();
     }
     @Override
+    /**
+     * Despliega todos los pokemons dado un tipo desde teclado.
+     */
     public void desplegarPorTipo() {
         StdOut.print("Ingrese el tipo de pokemons que desea desplegar: ");
         String tipo = StdIn.readString();
@@ -157,13 +214,16 @@ public class SistemaImpl implements Sistema{
             StdOut.println("No fueron encontrados pokemons de tipo " + tipo);
         }
     }
-
     @Override
+    /**
+     * Despliega todos que esten etapa primera evolucion.
+     */
     public void desplegarPrimeraEvolucion() {
-
     }
-
     @Override
+    /**
+     * Menu de busqueda personalizada de pokemon, luego despliega.
+     */
     public void busquedaPersonalizada() {
 
         StdOut.print("""
@@ -185,6 +245,9 @@ public class SistemaImpl implements Sistema{
 
     }
 
+    /**
+     * Metodo que solicita un nombre para luego buscarlo y desplegarlo.
+     */
     public void buscarNombre() {
         StdOut.print("Ingrese nombre el pokemon a buscar: ");
         String nombre = StdIn.readString();
@@ -200,6 +263,9 @@ public class SistemaImpl implements Sistema{
         }
     }
 
+    /**
+     * Metodo que solicita un id para luego buscarlo y desplegarlo.
+     */
     public void buscarID() {
         StdOut.print("Ingrese ID el pokemon a buscar: ");
         String id = StdIn.readString();
