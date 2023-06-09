@@ -171,14 +171,21 @@ public class SistemaImpl implements Sistema{
         int hasta = StdIn.readInt();
 
         if (desde > pokedex.getTamanio() || hasta > pokedex.getTamanio()){
-            StdOut.println("Uno de los valores ingresados excede el tamanio de pokemons almacenados. Volviendo al menu inicial");
+            StdOut.println("Uno de los valores ingresados excede el tamanio de pokemons almacenados, el tamanio de la pokedex es de "+ pokedex.getTamanio() + " pokemons. Volviendo al menu inicial");
+            StdOut.println("");
+            return;
+        }
+
+        if (desde == 0 || hasta == 0){
+            StdOut.println("Uno de los valores ingresados fue cero, no hay pokemon con ese ID. Volviendo al menu principal...");
+            StdOut.println("");
             return;
         }
 
         if (desde > hasta) {
-            int aux = desde;
-            desde = hasta;
-            hasta = aux;
+            StdOut.println("Ingreso de manera incorrecta los valores. Volviendo al menu principal....");
+            StdOut.println("");
+            return;
         }
         StdOut.println("Desplegando pokemons desde el ID: " + desde + " hasta el ID: " + hasta);
         StdOut.println("---------------------------------------------------------------------------------------");
@@ -186,6 +193,8 @@ public class SistemaImpl implements Sistema{
             String id = Integer.toString(i);
             pokedex.desplegarID(id);
         }
+        StdOut.println("Volviendo al menu principal....");
+        StdOut.println("");
     }
     @Override
     /**
@@ -197,6 +206,8 @@ public class SistemaImpl implements Sistema{
         StdOut.println("Desplegando todos los pokemons almacenados en la pokedex...");
         StdOut.println("");
         pokedex.recorrerAdelante();
+        StdOut.println("Volviendo al menu principal....");
+        StdOut.println("");
     }
     @Override
     /**
@@ -210,8 +221,12 @@ public class SistemaImpl implements Sistema{
             StdOut.println("Desplegando pokemons de tipo " + tipo);
             StdOut.println("");
             pokedex.desplegarTipo(tipo);
+            StdOut.println("Volviendo al menu principal....");
+            StdOut.println("");
         }else {
             StdOut.println("No fueron encontrados pokemons de tipo " + tipo);
+            StdOut.println("Volviendo al menu principal....");
+            StdOut.println("");
         }
     }
     @Override
@@ -219,6 +234,14 @@ public class SistemaImpl implements Sistema{
      * Despliega todos que esten etapa primera evolucion.
      */
     public void desplegarPrimeraEvolucion() {
+        // Ordenamos la lista de nodo
+        pokedex.ordenar();
+        StdOut.println("Desplegamos los pokemons etapa primer evolucion...");
+        StdOut.println("");
+        // la recorremos hacia atras de esta manera se recorrera en forma decreciente
+        pokedex.recorrerAtrasCuartoRequerimiento();
+        StdOut.println("Volviendo al menu principal..");
+        StdOut.println("");
     }
     @Override
     /**
@@ -226,14 +249,12 @@ public class SistemaImpl implements Sistema{
      */
     public void busquedaPersonalizada() {
 
-        StdOut.print("""
-                
+        StdOut.print("""           
                 ----- BUSQUEDA PERSONALIZADA DE UN POKEMON -----
                [1] Busqueda por nombre
                [2] Busqueda por ID
                 ------------------------------------------------
                 """);
-
         StdOut.print("Ingrese la opcion por la que desea buscar al pokemon: ");
         String opcion = StdIn.readString();
 
@@ -254,12 +275,39 @@ public class SistemaImpl implements Sistema{
 
         Pokemon pokemon = null;
         if (pokedex.contieneNombre(nombre)) {
+
             StdOut.println("Pokemon con nombre " + nombre + " encontrado!");
             pokemon = pokedex.obtenerPokemonPorNombre(nombre);
-            pokedex.desplieguePokemon(pokemon);
+
+            if (pokemon instanceof Basico){
+                if (((Basico) pokemon).getPrimerEvolucion() != null || ((Basico) pokemon).getSegundaEvolucion() != null){
+                    while (true){
+                        if (((Basico) pokemon).getPrimerEvolucion() != null && ((Basico) pokemon).getSegundaEvolucion() != null){
+                            despliegueEvolucionesBasico((Basico) pokemon);
+                        } else if (((Basico) pokemon).getPrimerEvolucion() != null) {
+                            despliegueEvolucionesBasico((Basico) pokemon);
+                        } else if (((Basico) pokemon).getSegundaEvolucion() != null) {
+                            despliegueEvolucionesBasico((Basico) pokemon);
+                        }
+                    }
+                }else {
+                    pokedex.desplieguePokemon(pokemon);
+                }
+            } else if (pokemon instanceof PrimeraEvolucion) {
+                if (((PrimeraEvolucion) pokemon).getSegundaEvolucion() != null){
+                    while ()
+                }
+
+            }
+            /*else {
+                pokedex.desplieguePokemon(pokemon);
+            }
+             */
         }
         else {
             StdOut.println("No fue encontrado un pokemon con nombre: " + nombre);
+            StdOut.println("Volviendo al menu principal");
+            StdOut.println("");
         }
     }
 
@@ -271,6 +319,37 @@ public class SistemaImpl implements Sistema{
         String id = StdIn.readString();
 
         Pokemon pokemon = null;
+
+        if (pokedex.contieneNombre(id)) {
+
+            StdOut.println("Pokemon con id " + id + " encontrado!");
+            pokemon = pokedex.obtenerPokemonPorId(id);
+
+            if (pokemon instanceof Basico){
+                if (((Basico) pokemon).getPrimerEvolucion() != null || ((Basico) pokemon).getSegundaEvolucion() != null){
+                    while (true){
+                        if (((Basico) pokemon).getPrimerEvolucion() != null && ((Basico) pokemon).getSegundaEvolucion() != null){
+                            despliegueEvolucionesBasico((Basico) pokemon);
+                        } else if (((Basico) pokemon).getPrimerEvolucion() != null) {
+                            despliegueEvolucionesBasico((Basico) pokemon);
+                        } else if (((Basico) pokemon).getSegundaEvolucion() != null) {
+                            despliegueEvolucionesBasico((Basico) pokemon);
+                        }
+                    }
+                }else {
+                    pokedex.desplieguePokemon(pokemon);
+                }
+            }else {
+                pokedex.desplieguePokemon(pokemon);
+            }
+        }
+        else {
+            StdOut.println("No fue encontrado un pokemon con id: " + id);
+            StdOut.println("Volviendo al menu principal....");
+            StdOut.println("");
+        }
+
+        /*
         if (pokedex.contieneID(id)) {
             StdOut.println("Pokemon con ID " + id + " encontrado!");
             pokemon = pokedex.obtenerPokemonPorId(id);
@@ -279,6 +358,88 @@ public class SistemaImpl implements Sistema{
         else {
             StdOut.println("No fue encontrado un pokemon con el id: " + id);
         }
+         */
     }
 
+    /**
+     * Metodo que despliega en base al requerimiento 5, la busqueda personalizada.
+     * @param pokemon
+     */
+    public void despliegueEvolucionesBasico(Basico pokemon){
+
+        while (true){
+            StdOut.println("""   
+                            ------ OPCIONES -----
+                            [1] Desplegar primer evolucion
+                            [2] Desplegar segunda evolucion
+                            [3] Salir
+                            ---------------------
+                                                      """);
+            StdOut.print("Ingrese la opcion deseada: ");
+            String opcion = StdIn.readString();
+
+            switch (opcion){
+                case "1" -> {
+                    if (pokemon.getPrimerEvolucion() == null){
+                        StdOut.println("El pokemon " + pokemon.getNombre() + " no posee primer evolucion.");
+                        StdOut.println("");
+                    }else {
+                        StdOut.println("La primer evolucion del pokemon " + pokemon.getNombre() + " es: " + pokemon.getPrimerEvolucion());
+                        StdOut.println("");
+                    }
+                }
+                case "2" -> {
+                    if (pokemon.getSegundaEvolucion() == null){
+                        StdOut.println("El pokemon " + pokemon.getNombre() + " no posee segunda evolucion.");
+                        StdOut.println("");
+                    }else {
+                        StdOut.println("La segunda evolucion del pokemon " + pokemon.getNombre() + " es: " + pokemon.getSegundaEvolucion());
+                        StdOut.println("");
+                    }
+                }
+                case "3" -> {
+                    StdOut.println("Saliendo...");
+                    return;
+                }
+                default -> StdOut.println("Intentelo denuevo.");
+            }
+        }
+    }
+
+    public void despliegueEvolucionesPrimerEvolucion(PrimeraEvolucion pokemon){
+
+        while (true){
+            StdOut.println("*ESTE POKEMON SE ENCUENTRA EN ETAPA PRIMER EVOLUCION*");
+            StdOut.println("""   
+                            ------ OPCIONES -----
+                            [1] Desplegar segunda evolucion
+                            [2] Salir
+                            ---------------------
+                                                      """);
+            StdOut.print("Ingrese la opcion deseada: ");
+            String opcion = StdIn.readString();
+
+            switch (opcion){
+                case "1" ->{
+                    if (pokemon.getSegundaEvolucion() == null){
+                        StdOut.println("El pokemon " + pokemon.getNombre() + " no posee segunda evolucion.");
+                        StdOut.println("");
+                    }else {
+                        StdOut.println("La segunda evolucion del pokemon " + pokemon.getNombre() + " es: " + pokemon.getSegundaEvolucion());
+                        StdOut.println("");
+                    }
+                }
+                case "2" -> {
+                    StdOut.println("Saliendo...");
+                    return;
+                }
+                default -> StdOut.println("Intentelo denuevo.");
+            }
+
+        }
+    }
+
+    public void despliegueSegundaEvolucion(SegundaEvolucion pokemon){
+
+    }
 }

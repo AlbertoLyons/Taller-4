@@ -244,4 +244,52 @@ public class ListaNodoDoble {
         }
         return;
     }
+
+    /**
+     * Recorre la lista y con un condificional nos funciona para el cuarto requerimiento.
+     */
+    public void recorrerAtrasCuartoRequerimiento(){
+        NodoDoble aux = this.cola;
+        while(aux!=null) {
+            Pokemon pokemonAux = aux.getPokemon();
+            if (pokemonAux instanceof PrimeraEvolucion){
+                desplieguePokemon(aux.getPokemon());
+            }
+            aux = aux.getAnterior();
+        }
+        return;
+    }
+
+    /**
+     * Ordena la lista nodo.
+     */
+    public void ordenar(){
+
+        if (this.cabeza == null){
+            return;
+        }
+
+        boolean cambio = true;
+
+        while (cambio){
+
+            int iteracion = 0;
+            cambio = false;
+            for (NodoDoble i = this.cabeza; iteracion < this.tamanio; i = i.getSiguiente()){
+                if (i.getSiguiente() != null && (Integer.parseInt(i.getPokemon().getId()) > Integer.parseInt(i.getSiguiente().getPokemon().getId()))){
+                    Pokemon pokemon = i.getPokemon();
+                    i.setPokemon(i.getSiguiente().getPokemon());
+                    i.getSiguiente().setPokemon(pokemon);
+                    cambio = true;
+                }
+                iteracion++;
+            }
+        }
+    }
+
+    public void despliegueEvoluciones(){
+
+
+
+    }
 }
