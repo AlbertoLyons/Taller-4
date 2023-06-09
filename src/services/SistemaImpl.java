@@ -5,8 +5,11 @@ import ucn.*;
 
 import java.io.*;
 
-public class SistemaImpl implements Sistema{
-
+public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
+    /**
+     * The pokedex
+     * @see ListaNodoDoble
+     */
     private ListaNodoDoble pokedex;
 
     /**
@@ -35,6 +38,7 @@ public class SistemaImpl implements Sistema{
 
             String etapa = regEnt.getString();
             switch (etapa) {
+                //Ordena segun si el pokemon del archivo en la linea es de tipo Basico
                 case "Basico" -> {
                     String primerEvolucion;
                     String segundaEvolucion;
@@ -60,6 +64,7 @@ public class SistemaImpl implements Sistema{
 
                     pokemonLectura = new Basico(id, pokemon, primerEvolucion, segundaEvolucion, primerTipo, segundoTipo);
                 }
+                //Ordena segun si el pokemon del archivo en la linea es de tipo Primera Evolucion
                 case "Primera Evolucion" -> {
                     String segundaEvolucion = regEnt.getString();
                     String basico = regEnt.getString();
@@ -74,6 +79,7 @@ public class SistemaImpl implements Sistema{
                     }
                     pokemonLectura = new PrimeraEvolucion(id, pokemon, segundaEvolucion, basico, primerTipo, segundoTipo);
                 }
+                //Ordena segun si el pokemon del archivo en la linea es de tipo Segunda Evolucion
                 case "Segunda Evolucion" -> {
                     String primeraEvolucion = regEnt.getString();
                     String basico = regEnt.getString();
@@ -83,6 +89,7 @@ public class SistemaImpl implements Sistema{
                 }
 
             }
+            //Lo agrega a la lista al final
             this.pokedex.agregar(pokemonLectura);
         }
         archEnt.close();
@@ -164,24 +171,24 @@ public class SistemaImpl implements Sistema{
     public void desplegarPorRangosId() {
         StdOut.println("----- BUSQUEDA DE POKEMONS POR RANGOS ------------------------------------------------");
         StdOut.println("Escriba un rango de ID (Ejemplo: desde el 1 hasta el 151, o desde el 60 hasta el 70):");
-        StdOut.println(" *EL PRIMER VALOR DEBE SER MENOR AL SEGUNDO*");
+        StdOut.println(" *EL PRIMER VALOR DEBE SER MENOR AL SEGUNDO* ");
         StdOut.print("Desde: ");
         int desde = StdIn.readInt();
         StdOut.print("Hasta: ");
         int hasta = StdIn.readInt();
-
+        //Verifica que alguno de los 2 parametros no sobrepase la cantidad almacenada en la pokedex
         if (desde > pokedex.getTamanio() || hasta > pokedex.getTamanio()){
             StdOut.println("Uno de los valores ingresados excede el tamanio de pokemons almacenados, el tamanio de la pokedex es de "+ pokedex.getTamanio() + " pokemons. Volviendo al menu inicial");
             StdOut.println("");
             return;
         }
-
+        //Verifica que alguno de los parametros sea distinto de 0
         if (desde == 0 || hasta == 0){
             StdOut.println("Uno de los valores ingresados fue cero, no hay pokemon con ese ID. Volviendo al menu principal...");
             StdOut.println("");
             return;
         }
-
+        //Verifica que los parametros no se ingresen de orden alternado
         if (desde > hasta) {
             StdOut.println("Ingreso de manera incorrecta los valores. Volviendo al menu principal....");
             StdOut.println("");
@@ -189,6 +196,7 @@ public class SistemaImpl implements Sistema{
         }
         StdOut.println("Desplegando pokemons desde el ID: " + desde + " hasta el ID: " + hasta);
         StdOut.println("---------------------------------------------------------------------------------------");
+        //Despliega a los pokemons segun el rango dado
         for (int i = desde; i < hasta+1; i++) {
             String id = Integer.toString(i);
             pokedex.desplegarID(id);
@@ -201,10 +209,11 @@ public class SistemaImpl implements Sistema{
      * Despliega todos los pokemons almacenados en la lista.
      */
     public void desplegarTodosLosPokemons() {
-
+        //Se accede al metodo para ordenar de la pokedex
         pokedex.ordenarAlfabeticamente();
         StdOut.println("Desplegando todos los pokemons almacenados en la pokedex...");
         StdOut.println("");
+        //Luego se despliega
         pokedex.recorrerAdelante();
         StdOut.println("Volviendo al menu principal....");
         StdOut.println("");
@@ -216,13 +225,14 @@ public class SistemaImpl implements Sistema{
     public void desplegarPorTipo() {
         StdOut.print("Ingrese el tipo de pokemons que desea desplegar: ");
         String tipo = StdIn.readString();
-
+        //Se busca al tipo dado por el usuario
         if (pokedex.contieneTipo(tipo)){
             StdOut.println("Desplegando pokemons de tipo " + tipo);
             StdOut.println("");
             pokedex.desplegarTipo(tipo);
             StdOut.println("Volviendo al menu principal....");
             StdOut.println("");
+        //Si no encuentra, se le avisa al usuario
         }else {
             StdOut.println("No fueron encontrados pokemons de tipo " + tipo);
             StdOut.println("Volviendo al menu principal....");
@@ -278,7 +288,7 @@ public class SistemaImpl implements Sistema{
 
             StdOut.println("Pokemon con nombre " + nombre + " encontrado!");
             pokemon = pokedex.obtenerPokemonPorNombre(nombre);
-
+            //Busca si el pokemon es de tipo basico
             if (pokemon instanceof Basico){
                 if (((Basico) pokemon).getPrimerEvolucion() != null || ((Basico) pokemon).getSegundaEvolucion() != null){
                     while (true){
@@ -293,16 +303,18 @@ public class SistemaImpl implements Sistema{
                 }else {
                     pokedex.desplieguePokemon(pokemon);
                 }
+            //Busca si el pokemon es de tipo primera evolucion
             } else if (pokemon instanceof PrimeraEvolucion) {
                 if (((PrimeraEvolucion) pokemon).getSegundaEvolucion() != null){
-                    while ()
+                    despliegueEvolucionesPrimerEvolucion((PrimeraEvolucion) pokemon);
                 }
-
+                else {
+                    pokedex.desplieguePokemon(pokemon);
+                }
             }
-            /*else {
-                pokedex.desplieguePokemon(pokemon);
-            }
-             */
+        //Busca si el pokemon es de tipo segunda evolucion
+        } else if (pokemon instanceof SegundaEvolucion) {
+            despliegueSegundaEvolucion((SegundaEvolucion) pokemon);
         }
         else {
             StdOut.println("No fue encontrado un pokemon con nombre: " + nombre);
@@ -324,21 +336,27 @@ public class SistemaImpl implements Sistema{
 
             StdOut.println("Pokemon con id " + id + " encontrado!");
             pokemon = pokedex.obtenerPokemonPorId(id);
-
+            //Verifica si el pokemon es de tipo basico
             if (pokemon instanceof Basico){
+                //Verifica si tiene primera evolucion o segunda evolucion
                 if (((Basico) pokemon).getPrimerEvolucion() != null || ((Basico) pokemon).getSegundaEvolucion() != null){
                     while (true){
+                        //Verifica si tiene las 2 evoluciones
                         if (((Basico) pokemon).getPrimerEvolucion() != null && ((Basico) pokemon).getSegundaEvolucion() != null){
                             despliegueEvolucionesBasico((Basico) pokemon);
+                        //Verifica si tiene primer evolucion
                         } else if (((Basico) pokemon).getPrimerEvolucion() != null) {
                             despliegueEvolucionesBasico((Basico) pokemon);
+                        //Verifica si tiene segunda evolucion
                         } else if (((Basico) pokemon).getSegundaEvolucion() != null) {
                             despliegueEvolucionesBasico((Basico) pokemon);
                         }
                     }
+                //Si no tiene primera o segunda evolucion. se despliega solamente el basico
                 }else {
                     pokedex.desplieguePokemon(pokemon);
                 }
+            //Si el pokemon no es de tipo basico, se depliega siendo de los otros tipos
             }else {
                 pokedex.desplieguePokemon(pokemon);
             }
@@ -440,6 +458,7 @@ public class SistemaImpl implements Sistema{
     }
 
     public void despliegueSegundaEvolucion(SegundaEvolucion pokemon){
+            StdOut.println("*ESTE POKEMON SE ENCUENTRA EN ETAPA SEGUNDA EVOLUCION*");
 
     }
 }

@@ -28,13 +28,30 @@ package models {
     }
     class NodoDoble {
      + NodoDoble()
-     + get's()
+     + get's() & set's()
     }
     class ListaNodoDoble {
+     - tamanio: int
      + listaNodoDobleCircular()
      + agregar(posicion: int, pokemon: Pokemon): boolean
-     + obtener(posicion: int): Pokemon
-     + posicion(pokemon: Pokemon): int
+     + desplieguePokemon(pokemon: Pokemon): void
+     + desplegarID(id: String): void
+
+     + contieneID(id: String): boolean
+
+     + obtenerPokemonPorId(id: String): Pokemon
+     + contieneNombre(nombre: String): boolean
+     + obtenerPokemonPorNombre(nombre: String): Pokemon
+     + contieneTipo(tipo: String): boolean
+     + desplegarTipo(tipo: String): void
+     + ordenarAlfabeticamente(): void
+     + recorrerAdelante(): void
+     + recorrerAtrasCuartoRequerimiento(): void
+     + ordenar(): void
+
+     + despliegueEvoluciones(): void
+
+     + getTamanio(): int
     }
 }
 package services {
@@ -47,12 +64,23 @@ package services {
     }
     class SistemaImpl {
      + SistemaImpl()
+     + inicio(): void
+     + ordenarArchivo(): void
+     + menuPrincipal() void
+     + buscarNombre(): void
+     + buscarID(): void
+     + despliegueEvolucionesBasico(pokemon: Basico): void
      + desplegarporBusqueda(): void
+
+     + despliegueEvolucionesPrimerEvolucion(pokemon: PrimeraEvolucion): void
+
+     + despluegueSegundaEvolucion(pokemon: SegundaEvolucion): void
+
     }
 }
 
 SistemaImpl .left|> Sistema
-SistemaImpl -right> ListaNodoDoble: administra
+SistemaImpl -right> ListaNodoDoble: - pokedex: ListaNodoDoble
 ListaNodoDoble *-right-> NodoDoble : - cabeza: Nodo
 ListaNodoDoble *-right-> NodoDoble : - cola: Nodo
 NodoDoble o-> "1"NodoDoble : - siguiente: NodoDoble
