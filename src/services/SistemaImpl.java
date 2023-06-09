@@ -245,7 +245,7 @@ public class SistemaImpl implements Sistema{
     }
     @Override
     /**
-     * Menu de busqueda personalizada de pokemon, luego despliega.
+     * Menu de busqueda personalizada de pokemon, llama a otros subprogramas para luego desplegarlo.
      */
     public void busquedaPersonalizada() {
 
@@ -267,7 +267,7 @@ public class SistemaImpl implements Sistema{
     }
 
     /**
-     * Metodo que solicita un nombre para luego buscarlo y desplegarlo.
+     * Metodo que solicita un nombre para luego buscarlo y desplegarlo segun las condiciones.
      */
     public void buscarNombre() {
         StdOut.print("Ingrese nombre el pokemon a buscar: ");
@@ -281,28 +281,29 @@ public class SistemaImpl implements Sistema{
 
             if (pokemon instanceof Basico){
                 if (((Basico) pokemon).getPrimerEvolucion() != null || ((Basico) pokemon).getSegundaEvolucion() != null){
-                    while (true){
-                        if (((Basico) pokemon).getPrimerEvolucion() != null && ((Basico) pokemon).getSegundaEvolucion() != null){
-                            despliegueEvolucionesBasico((Basico) pokemon);
-                        } else if (((Basico) pokemon).getPrimerEvolucion() != null) {
-                            despliegueEvolucionesBasico((Basico) pokemon);
-                        } else if (((Basico) pokemon).getSegundaEvolucion() != null) {
-                            despliegueEvolucionesBasico((Basico) pokemon);
-                        }
+                    if (((Basico) pokemon).getPrimerEvolucion() != null && ((Basico) pokemon).getSegundaEvolucion() != null){
+                        despliegueEvolucionesBasico((Basico) pokemon);
+                    } else if (((Basico) pokemon).getPrimerEvolucion() != null) {
+                        despliegueEvolucionesBasico((Basico) pokemon);
+                    } else if (((Basico) pokemon).getSegundaEvolucion() != null) {
+                        despliegueEvolucionesBasico((Basico) pokemon);
                     }
                 }else {
                     pokedex.desplieguePokemon(pokemon);
                 }
             } else if (pokemon instanceof PrimeraEvolucion) {
                 if (((PrimeraEvolucion) pokemon).getSegundaEvolucion() != null){
-                    while ()
+                    despliegueEvolucionesPrimeraEvolucion((PrimeraEvolucion) pokemon);
+                }else {
+                    pokedex.desplieguePokemon(pokemon);
                 }
-
+            } else if (pokemon instanceof SegundaEvolucion) {
+                if (((SegundaEvolucion) pokemon).getPrimeraEvolucion() != null){
+                    despliegueEvolucionesSegundaEvolucion((SegundaEvolucion) pokemon);
+                }else {
+                    pokedex.desplieguePokemon(pokemon);
+                }
             }
-            /*else {
-                pokedex.desplieguePokemon(pokemon);
-            }
-             */
         }
         else {
             StdOut.println("No fue encontrado un pokemon con nombre: " + nombre);
@@ -312,7 +313,7 @@ public class SistemaImpl implements Sistema{
     }
 
     /**
-     * Metodo que solicita un id para luego buscarlo y desplegarlo.
+     * Metodo que solicita un id para luego buscarlo y desplegarlo segun las condiciones.
      */
     public void buscarID() {
         StdOut.print("Ingrese ID el pokemon a buscar: ");
@@ -366,11 +367,12 @@ public class SistemaImpl implements Sistema{
      * @param pokemon
      */
     public void despliegueEvolucionesBasico(Basico pokemon){
-
+        StdOut.println("*ESTE POKEMON SE ENCUENTRA EN ETAPA BASICA*");
+        StdOut.println("");
         while (true){
             StdOut.println("""   
                             ------ OPCIONES -----
-                            [1] Desplegar primer evolucion
+                            [1] Desplegar primera evolucion
                             [2] Desplegar segunda evolucion
                             [3] Salir
                             ---------------------
@@ -384,7 +386,7 @@ public class SistemaImpl implements Sistema{
                         StdOut.println("El pokemon " + pokemon.getNombre() + " no posee primer evolucion.");
                         StdOut.println("");
                     }else {
-                        StdOut.println("La primer evolucion del pokemon " + pokemon.getNombre() + " es: " + pokemon.getPrimerEvolucion());
+                        StdOut.println("La primera evolucion del pokemon " + pokemon.getNombre() + " es: " + pokemon.getPrimerEvolucion());
                         StdOut.println("");
                     }
                 }
@@ -399,17 +401,25 @@ public class SistemaImpl implements Sistema{
                 }
                 case "3" -> {
                     StdOut.println("Saliendo...");
+                    StdOut.println("");
                     return;
                 }
-                default -> StdOut.println("Intentelo denuevo.");
+                default -> {
+                    StdOut.println("Intentelo denuevo.");
+                    StdOut.println("");
+                }
             }
         }
     }
 
-    public void despliegueEvolucionesPrimerEvolucion(PrimeraEvolucion pokemon){
-
+    /**
+     * Metodo para despliegue de pokemones tipo primera evolucion para el requerimiento 5
+     * @param pokemon
+     */
+    public void despliegueEvolucionesPrimeraEvolucion(PrimeraEvolucion pokemon){
+        StdOut.println("*ESTE POKEMON SE ENCUENTRA EN ETAPA PRIMERA EVOLUCION*");
+        StdOut.println("");
         while (true){
-            StdOut.println("*ESTE POKEMON SE ENCUENTRA EN ETAPA PRIMER EVOLUCION*");
             StdOut.println("""   
                             ------ OPCIONES -----
                             [1] Desplegar segunda evolucion
@@ -431,15 +441,55 @@ public class SistemaImpl implements Sistema{
                 }
                 case "2" -> {
                     StdOut.println("Saliendo...");
+                    StdOut.println("");
                     return;
                 }
-                default -> StdOut.println("Intentelo denuevo.");
+                default -> {
+                    StdOut.println("Intentelo denuevo.");
+                    StdOut.println("");
+                }
             }
 
         }
     }
 
-    public void despliegueSegundaEvolucion(SegundaEvolucion pokemon){
+    /**
+     * Metodo para despliegue de pokemones tipo segunda evolucion para el requerimiento 5
+     * @param pokemon
+     */
+    public void despliegueEvolucionesSegundaEvolucion(SegundaEvolucion pokemon){
+        StdOut.println("*ESTE POKEMON SE ENCUENTRA EN ETAPA SEGUNDA EVOLUCION*");
+        StdOut.println("");
+        while (true){
+            StdOut.println("""   
+                            ------ OPCIONES -----
+                            [1] Desplegar primera evolucion
+                            [2] Salir
+                            ---------------------
+                                                      """);
+            StdOut.print("Ingrese la opcion deseada: ");
+            String opcion = StdIn.readString();
 
+            switch (opcion){
+                case "1" ->{
+                    if (pokemon.getPrimeraEvolucion() == null){
+                        StdOut.println("El pokemon " + pokemon.getNombre() + " no posee primer evolucion.");
+                        StdOut.println("");
+                    }else {
+                        StdOut.println("La primera evolucion del pokemon " + pokemon.getNombre() + " es: " + pokemon.getPrimeraEvolucion());
+                        StdOut.println("");
+                    }
+                }
+                case "2" -> {
+                    StdOut.println("Saliendo...");
+                    StdOut.println("");
+                    return;
+                }
+                default -> {
+                    StdOut.println("Intentelo denuevo.");
+                    StdOut.println("");
+                }
+            }
+        }
     }
 }
