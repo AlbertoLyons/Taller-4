@@ -285,7 +285,9 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
         Pokemon pokemon = null;
         if (pokedex.contieneNombre(nombre)) {
             StdOut.println("Pokemon con nombre " + nombre + " encontrado!");
+            StdOut.println("");
             pokemon = pokedex.obtenerPokemonPorNombre(nombre);
+            pokedex.desplieguePokemonBusquedaPersonalizada(pokemon);
             // Valida si el pokemon es de tipo basico
             if (pokemon instanceof Basico){
                 if (((Basico) pokemon).getPrimerEvolucion() != null || ((Basico) pokemon).getSegundaEvolucion() != null){
@@ -331,36 +333,33 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
         Pokemon pokemon = null;
         if (pokedex.contieneID(id)) {
             StdOut.println("Pokemon con id " + id + " encontrado!");
+            StdOut.println("");
             pokemon = pokedex.obtenerPokemonPorId(id);
             pokedex.desplieguePokemonBusquedaPersonalizada(pokemon);
-            //Verifica si el pokemon es de tipo basico
+            // Valida si el pokemon es de tipo basico
             if (pokemon instanceof Basico){
-                //Verifica si tiene primera evolucion o segunda evolucion
-                if (((Basico) pokemon).getPrimerEvolucion() != null || ((Basico) pokemon).getSegundaEvolucion() != null){
-                    while (true){
-                        //Verifica si tiene las 2 evoluciones
-                        if (((Basico) pokemon).getPrimerEvolucion() != null && ((Basico) pokemon).getSegundaEvolucion() != null){
-                            despliegueEvolucionesBasico((Basico) pokemon);
-                        //Verifica si tiene primer evolucion
-                        } else if (((Basico) pokemon).getPrimerEvolucion() != null) {
-                            despliegueEvolucionesBasico((Basico) pokemon);
-                        //Verifica si tiene segunda evolucion
-                        } else if (((Basico) pokemon).getSegundaEvolucion() != null) {
-                            despliegueEvolucionesBasico((Basico) pokemon);
-                        }
-                    }
-                //Si no tiene primera o segunda evolucion. se despliega solamente el basico
+                //Verifica si el basico tiene primer evolucion
+                if (((Basico) pokemon).getPrimerEvolucion() != null){
+                    despliegueEvolucionesBasico((Basico) pokemon);
                 }else {
                     pokedex.desplieguePokemon(pokemon);
                 }
-            //Si el pokemon no es de tipo basico, se depliega siendo de los otros tipos
-            }else {
-                pokedex.desplieguePokemon(pokemon);
+                // Valida si el pokemon es de tipo primera evolucion
+            } else if (pokemon instanceof PrimeraEvolucion) {
+                //Verifica si tiene segunda evolucion
+                if (((PrimeraEvolucion) pokemon).getSegundaEvolucion() != null){
+                    despliegueEvolucionesPrimeraEvolucion((PrimeraEvolucion) pokemon);
+                }else {
+                    pokedex.desplieguePokemon(pokemon);
+                }
+                // Valida si el pokemon es de tipo segunda evolucion
+            } else if (pokemon instanceof SegundaEvolucion) {
+                    pokedex.desplieguePokemon(pokemon);
+
             }
-        }
-        else {
+        }else {
             StdOut.println("No fue encontrado un pokemon con id: " + id);
-            StdOut.println("Volviendo al menu principal....");
+            StdOut.println("Volviendo al menu principal");
             StdOut.println("");
         }
     }
@@ -455,7 +454,6 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
         }
     }
 
-
     /**
      * Metodo para despliegue de pokemones tipo segunda evolucion para el requerimiento 5
      * @param pokemon
@@ -472,6 +470,27 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
                                               """);
             StdOut.print("Ingrese la opcion deseada: ");
             String opcion = StdIn.readString();
+
+            switch (opcion){
+                case "1" ->{
+                    if (pokemon.getPrimeraEvolucion() == null){
+                        StdOut.println("El pokemon " + pokemon.getNombre() + " no posee segunda evolucion.");
+                        StdOut.println("");
+                    }else {
+                        StdOut.println("La segunda evolucion del pokemon " + pokemon.getNombre() + " es: " + pokemon.getPrimeraEvolucion());
+                        StdOut.println("");
+                    }
+                }
+                case "2" -> {
+                    StdOut.println("Saliendo...");
+                    StdOut.println("");
+                    return;
+                }
+                default -> {
+                    StdOut.println("Intentelo denuevo.");
+                    StdOut.println("");
+                }
+            }
         }
     }
 }

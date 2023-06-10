@@ -17,7 +17,6 @@ public class ListaNodoDoble {
      * The tamanio
      */
     private int tamanio;
-
     /**
      * The constructor.
      */
@@ -244,10 +243,12 @@ public class ListaNodoDoble {
      */
     public void ordenarAlfabeticamente(){
 
+        // Validacion si la lista esta vacia, en este caso retorna.
         if (this.cabeza == null){
             return;
         }
 
+        // Si hay un solo elemento no tiene sentido ordenar.
         if (this.cabeza.getSiguiente() == this.cabeza){
             return;
         }
@@ -298,22 +299,24 @@ public class ListaNodoDoble {
             aux = aux.getAnterior();
         }
     }
+
     /**
-     * Ordena la lista nodo.
+     * Ordena la lista nodo de manera creciente.
      */
     public void ordenar(){
 
+        // Validacion si la lista esta vacia, en este caso retorna.
         if (this.cabeza == null){
             return;
         }
 
         boolean cambio = true;
-
         while (cambio){
 
             int iteracion = 0;
             cambio = false;
             for (NodoDoble i = this.cabeza; iteracion < this.tamanio; i = i.getSiguiente()){
+                // Validacion para comprobar si la posicion actual es mayor que la siguiente y en caso de cumplirse realizamos el cambio
                 if (i.getSiguiente() != null && (Integer.parseInt(i.getPokemon().getId()) > Integer.parseInt(i.getSiguiente().getPokemon().getId()))){
                     Pokemon pokemon = i.getPokemon();
                     i.setPokemon(i.getSiguiente().getPokemon());
@@ -325,8 +328,18 @@ public class ListaNodoDoble {
         }
     }
 
+    /**
+     * Metodo de despliegue para el quinto requerimiento, el de busqueda personalizada.
+     * @param pokemon
+     */
     public void desplieguePokemonBusquedaPersonalizada(Pokemon pokemon){
         StdOut.println("ID: " + pokemon.getId());
         StdOut.println("NOMBRE: " + pokemon.getNombre());
+        if (pokemon.getPrimerTipo().equals(pokemon.getSegundoTipo())) {
+            StdOut.println("TIPO: " + pokemon.getPrimerTipo());
+        }else{
+            StdOut.println("PRIMER TIPO: " + pokemon.getPrimerTipo());
+            StdOut.println("SEGUNDO TIPO: " + pokemon.getSegundoTipo());
+        }
     }
 }

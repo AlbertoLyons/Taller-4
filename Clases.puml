@@ -5,7 +5,7 @@ package models {
      - id: String
      - primerTipo: String
      - segundoTipo: String
-     - Pokemon(id: int, nombre: String, \nprimerTipo: String, segundoTipo: String)
+     + Pokemon(id: int, nombre: String, \nprimerTipo: String, segundoTipo: String)
      + get's()
     }
     class Basico {
@@ -32,13 +32,11 @@ package models {
     }
     class ListaNodoDoble {
      - tamanio: int
-     + listaNodoDobleCircular()
+     + ListaNodoDoble()
      + agregar(posicion: int, pokemon: Pokemon): boolean
      + desplieguePokemon(pokemon: Pokemon): void
      + desplegarID(id: String): void
-
      + contieneID(id: String): boolean
-
      + obtenerPokemonPorId(id: String): Pokemon
      + contieneNombre(nombre: String): boolean
      + obtenerPokemonPorNombre(nombre: String): Pokemon
@@ -48,17 +46,15 @@ package models {
      + recorrerAdelante(): void
      + recorrerAtrasCuartoRequerimiento(): void
      + ordenar(): void
-
-     + despliegueEvoluciones(): void
-
+     + desplieguePokemonBusquedaPersonalizada(): void
      + getTamanio(): int
     }
 }
 package services {
     interface Sistema {
      + desplegarPorRangosId(): void
-     + desplegarTodosAlfabeticamente(): void
-     + desplegarCoincideTipoIdDecreciente(): void
+     + desplegarTodosLosPokemons(): void
+     + desplegarPorTipo(): void
      + desplegarPrimeraEvolucion(): void
      + busquedaPersonalizada(): void
     }
@@ -66,15 +62,17 @@ package services {
      + SistemaImpl()
      + inicio(): void
      + ordenarArchivo(): void
-     + menuPrincipal() void
+     + menuPrincipal(): void
+     + desplegarPorRangosId(): void
+     + desplegarTodosLosPokemons(): void
+     + desplegarPorTipo(): void
+     + desplegarPrimeraEvolucion(): void
+     + busquedaPersonalizada(): void
      + buscarNombre(): void
      + buscarID(): void
      + despliegueEvolucionesBasico(pokemon: Basico): void
-     + desplegarporBusqueda(): void
-
      + despliegueEvolucionesPrimerEvolucion(pokemon: PrimeraEvolucion): void
-
-     + despluegueSegundaEvolucion(pokemon: SegundaEvolucion): void
+     + despluegueEvolucionesSegundaEvolucion(pokemon: SegundaEvolucion): void
 
     }
 }

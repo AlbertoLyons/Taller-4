@@ -25,7 +25,6 @@ public abstract class Pokemon { //Hereda la clase abstracta Pokemon
      * @param primerTipo
      * @param segundoTipo
      */
-
     public Pokemon(String nombre, String id, String primerTipo, String segundoTipo) {
         this.nombre = nombre;
         this.id = id;
