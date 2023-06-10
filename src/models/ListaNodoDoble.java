@@ -325,7 +325,8 @@ public class ListaNodoDoble {
         }
     }
 
-    public void despliegueEvoluciones(){
-
+    public void desplieguePokemonBusquedaPersonalizada(Pokemon pokemon){
+        StdOut.println("ID: " + pokemon.getId());
+        StdOut.println("NOMBRE: " + pokemon.getNombre());
     }
 }
