@@ -434,7 +434,8 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
             StdOut.println("""   
                             ------ OPCIONES -----
                             [1] Desplegar segunda evolucion
-                            [2] Salir
+                            [2] Desplegar etapa basica
+                            [3] Salir
                             ---------------------
                                                       """);
             StdOut.print("Ingrese la opcion deseada: ");
@@ -450,7 +451,12 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
                         StdOut.println("");
                     }
                 }
-                case "2" -> {
+                case "2" ->{
+                    StdOut.println("La etapa basica del pokemon " + pokemon.getNombre() + " es: " + pokemon.getBasico());
+                    StdOut.println("");
+
+                }
+                case "3" -> {
                     StdOut.println("Saliendo...");
                     StdOut.println("");
                     return;
@@ -482,13 +488,9 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
 
             switch (opcion){
                 case "1" ->{
-                    if (pokemon.getPrimeraEvolucion() == null){
-                        StdOut.println("El pokemon " + pokemon.getNombre() + " no posee segunda evolucion.");
-                        StdOut.println("");
-                    }else {
-                        StdOut.println("La segunda evolucion del pokemon " + pokemon.getNombre() + " es: " + pokemon.getPrimeraEvolucion());
-                        StdOut.println("");
-                    }
+                    StdOut.println("La primera evolucion del pokemon " + pokemon.getNombre() + " es: " + pokemon.getPrimeraEvolucion());
+                    StdOut.println("");
+
                 }
                 case "2" -> {
                     StdOut.println("Saliendo...");
