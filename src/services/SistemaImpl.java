@@ -4,6 +4,9 @@ import models.*;
 import ucn.*;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
     /**
@@ -196,10 +199,17 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
         }
         StdOut.println("Desplegando pokemons desde el ID: " + desde + " hasta el ID: " + hasta);
         StdOut.println("---------------------------------------------------------------------------------------");
-        //Despliega a los pokemons segun el rango dado
-        for (int i = desde; i < hasta+1; i++) {
-            String id = Integer.toString(i);
+        //Se crea una linkdelist asociado al NodoDoble
+        LinkedList<NodoDoble> lista = pokedex.LinkedList();
+        //Se crea el iterador desde el parametro desde-1 para empezar desde la posicion 0
+        ListIterator<NodoDoble> iterador = lista.listIterator(desde-1);
+        //Se ordena la lista de manera creciente
+        pokedex.ordenar("Cola");
+        //Se empieza a iterar con la lista iterador, por el rango de id que dio el usuario
+        while (iterador.hasNext() && iterador.nextIndex() < hasta) {
+            String id = iterador.next().getPokemon().getId();
             pokedex.desplegarID(id);
+
         }
         StdOut.println("Volviendo al menu principal....");
         StdOut.println("");
@@ -209,14 +219,13 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
      * Despliega todos los pokemons almacenados en la lista.
      */
     public void desplegarTodosLosPokemons() {
-        //Se accede al metodo para ordenar de la pokedex
-        pokedex.ordenarAlfabeticamente();
-        StdOut.println("Desplegando todos los pokemons almacenados en la pokedex...");
-        StdOut.println("");
-        //Luego se despliega
-        pokedex.recorrerAdelante();
-        StdOut.println("Volviendo al menu principal....");
-        StdOut.println("");
+        //Se crea el array lista ya ordenada alfabeticamente con el metodo de la listaNodoDoble
+        ArrayList<String> lista = pokedex.ordenarAlfabeticamenteArray();
+        for (int i = 0; i < lista.size(); i++) {
+            Pokemon pokemon = pokedex.obtenerPokemonPorNombre(lista.get(i));
+            //Se despliegan los pokemon ordenados
+            pokedex.desplieguePokemon(pokemon);
+        }
     }
     @Override
     /**
@@ -245,7 +254,7 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
      */
     public void desplegarPrimeraEvolucion() {
         // Ordenamos la lista de nodo
-        pokedex.ordenar();
+        pokedex.ordenar("Cabeza");
         StdOut.println("Desplegamos los pokemons etapa primer evolucion...");
         StdOut.println("");
         // la recorremos hacia atras de esta manera se recorrera en forma decreciente

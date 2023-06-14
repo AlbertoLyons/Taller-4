@@ -2,6 +2,10 @@ package models;
 
 import ucn.StdOut;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+
 public class ListaNodoDoble {
     /**
      *  The cabeza
@@ -237,52 +241,6 @@ public class ListaNodoDoble {
             actual = actual.getAnterior();
         }
     }
-
-    /**
-     * Ordena alfabeticamente la lista de nodo, intercambiado los pokemons de lugar.
-     */
-    public void ordenarAlfabeticamente(){
-
-        // Validacion si la lista esta vacia, en este caso retorna.
-        if (this.cabeza == null){
-            return;
-        }
-
-        // Si hay un solo elemento no tiene sentido ordenar.
-        if (this.cabeza.getSiguiente() == this.cabeza){
-            return;
-        }
-
-        boolean cambio = true;
-
-        while (cambio){
-            int iteracion = 0;
-            cambio = false;
-            for (NodoDoble i = this.cabeza; iteracion < this.tamanio; i=i.getSiguiente()){
-                if (i.getSiguiente() != null && (i.getPokemon().getNombre().compareTo(i.getSiguiente().getPokemon().getNombre())) > 0){
-                    Pokemon pokemon = i.getPokemon();
-                    i.setPokemon(i.getSiguiente().getPokemon());
-                    i.getSiguiente().setPokemon(pokemon);
-                    cambio = true;
-                }
-                iteracion++;
-            }
-        }
-    }
-
-    /**
-     * Recorre la lista hacia adelante, esta modificado para el requerimiento 2.
-     */
-    public void recorrerAdelante(){
-        //Se empieza desde la cabeza
-        NodoDoble aux = this.cabeza;
-        //Recorre la lista desde la cabeza
-        while(aux !=null){
-            desplieguePokemon(aux.getPokemon());
-            aux = aux.getSiguiente();
-        }
-    }
-
     /**
      * Recorre la lista y con un condicional nos funciona para el cuarto requerimiento.
      */
@@ -299,34 +257,54 @@ public class ListaNodoDoble {
             aux = aux.getAnterior();
         }
     }
-
     /**
      * Ordena la lista nodo de manera creciente.
+     * @param comienzo
      */
-    public void ordenar(){
+    public void ordenar(String comienzo){
 
         // Validacion si la lista esta vacia, en este caso retorna.
         if (this.cabeza == null){
             return;
         }
-
         boolean cambio = true;
-        while (cambio){
+        //Comienza desde la cabeza de la lista para ordenar de manera decreciente
+        if (comienzo == "Cabeza") {
+            while (cambio) {
 
-            int iteracion = 0;
-            cambio = false;
-            for (NodoDoble i = this.cabeza; iteracion < this.tamanio; i = i.getSiguiente()){
-                // Validacion para comprobar si la posicion actual es mayor que la siguiente y en caso de cumplirse realizamos el cambio
-                if (i.getSiguiente() != null && (Integer.parseInt(i.getPokemon().getId()) > Integer.parseInt(i.getSiguiente().getPokemon().getId()))){
-                    Pokemon pokemon = i.getPokemon();
-                    i.setPokemon(i.getSiguiente().getPokemon());
-                    i.getSiguiente().setPokemon(pokemon);
-                    cambio = true;
+                int iteracion = 0;
+                cambio = false;
+                for (NodoDoble i = this.cabeza; iteracion < this.tamanio; i = i.getSiguiente()) {
+                    // Validacion para comprobar si la posicion actual es mayor que la siguiente y en caso de cumplirse realizamos el cambio
+                    if (i.getSiguiente() != null && (Integer.parseInt(i.getPokemon().getId()) > Integer.parseInt(i.getSiguiente().getPokemon().getId()))) {
+                        Pokemon pokemon = i.getPokemon();
+                        i.setPokemon(i.getSiguiente().getPokemon());
+                        i.getSiguiente().setPokemon(pokemon);
+                        cambio = true;
+                    }
+                    iteracion++;
                 }
-                iteracion++;
+            }
+        //Comienza desde la cola de la lista para ordenar de manera creciente
+        } else if (comienzo == "Cola") {
+            while (cambio) {
+
+                int iteracion = 0;
+                cambio = false;
+                for (NodoDoble i = this.cola; iteracion < this.tamanio; i = i.getAnterior()) {
+                    // Validacion para comprobar si la posicion actual es mayor que la siguiente y en caso de cumplirse realizamos el cambio
+                    if (i.getAnterior() != null && (Integer.parseInt(i.getPokemon().getId()) > Integer.parseInt(i.getAnterior().getPokemon().getId()))) {
+                        Pokemon pokemon = i.getPokemon();
+                        i.setPokemon(i.getAnterior().getPokemon());
+                        i.getAnterior().setPokemon(pokemon);
+                        cambio = true;
+                    }
+                    iteracion++;
+                }
             }
         }
     }
+
 
     /**
      * Metodo de despliegue para el quinto requerimiento, el de busqueda personalizada.
@@ -342,4 +320,43 @@ public class ListaNodoDoble {
             StdOut.println("SEGUNDO TIPO: " + pokemon.getSegundoTipo());
         }
     }
+
+    /**
+     * Metodo que crea una arrayList para ordenar solamente esa arrayList y luego retornar
+     * @return lista
+     */
+    public ArrayList<String> ordenarAlfabeticamenteArray() {
+        //Se crea la lista vacia
+        ArrayList<String> lista = new ArrayList<>();
+        //Se empieza desde la cola
+        NodoDoble aux = this.cola;
+        //Recorre la lista desde la cola
+        while (aux != null) {
+            //Se le asigna a cada parametro de la lista los nombres de los pokemon
+            String pokemonAux = aux.getPokemon().getNombre();
+            lista.add(pokemonAux);
+            aux = aux.getAnterior();
+        }
+        //El metodo ordena la lista de manera alfabeticamente
+        Collections.sort(lista);
+        return lista;
+    }
+
+    /**
+     * Metodo que crea una LinkedList con los parametros del NodoDoble y retorna solamente
+     * @return lista
+     */
+    public LinkedList<NodoDoble> LinkedList() {
+        LinkedList<NodoDoble> lista = new LinkedList<>();
+        //Se empieza desde la cola
+        NodoDoble aux = this.cola;
+        //Recorre la lista desde la cola
+        while (aux != null) {
+            NodoDoble nodoAux = aux;
+            lista.add(nodoAux);
+            aux = aux.getAnterior();
+        }
+        return lista;
+    }
+
 }

@@ -5,7 +5,7 @@ package models {
      - id: String
      - primerTipo: String
      - segundoTipo: String
-     + Pokemon(id: int, nombre: String, \nprimerTipo: String, segundoTipo: String)
+     - Pokemon(id: int, nombre: String, \nprimerTipo: String, segundoTipo: String)
      + get's()
     }
     class Basico {
@@ -32,29 +32,32 @@ package models {
     }
     class ListaNodoDoble {
      - tamanio: int
-     + ListaNodoDoble()
+     + listaNodoDobleCircular()
      + agregar(posicion: int, pokemon: Pokemon): boolean
      + desplieguePokemon(pokemon: Pokemon): void
      + desplegarID(id: String): void
+
      + contieneID(id: String): boolean
+     + ordenarAlfabeticamenteArray(): ArrayList<String>
+     + LinkedList(): LinkedList<NodoDoble>
      + obtenerPokemonPorId(id: String): Pokemon
      + contieneNombre(nombre: String): boolean
      + obtenerPokemonPorNombre(nombre: String): Pokemon
      + contieneTipo(tipo: String): boolean
      + desplegarTipo(tipo: String): void
-     + ordenarAlfabeticamente(): void
-     + recorrerAdelante(): void
      + recorrerAtrasCuartoRequerimiento(): void
-     + ordenar(): void
-     + desplieguePokemonBusquedaPersonalizada(): void
+     + ordenar(comienzo: String): void
+
+     + despliegueEvoluciones(): void
+
      + getTamanio(): int
     }
 }
 package services {
     interface Sistema {
      + desplegarPorRangosId(): void
-     + desplegarTodosLosPokemons(): void
-     + desplegarPorTipo(): void
+     + desplegarTodosAlfabeticamente(): void
+     + desplegarCoincideTipoIdDecreciente(): void
      + desplegarPrimeraEvolucion(): void
      + busquedaPersonalizada(): void
     }
@@ -62,17 +65,15 @@ package services {
      + SistemaImpl()
      + inicio(): void
      + ordenarArchivo(): void
-     + menuPrincipal(): void
-     + desplegarPorRangosId(): void
-     + desplegarTodosLosPokemons(): void
-     + desplegarPorTipo(): void
-     + desplegarPrimeraEvolucion(): void
-     + busquedaPersonalizada(): void
+     + menuPrincipal() void
      + buscarNombre(): void
      + buscarID(): void
      + despliegueEvolucionesBasico(pokemon: Basico): void
+     + desplegarporBusqueda(): void
+
      + despliegueEvolucionesPrimerEvolucion(pokemon: PrimeraEvolucion): void
-     + despluegueEvolucionesSegundaEvolucion(pokemon: SegundaEvolucion): void
+
+     + despluegueSegundaEvolucion(pokemon: SegundaEvolucion): void
 
     }
 }
