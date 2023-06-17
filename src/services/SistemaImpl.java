@@ -65,12 +65,18 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
                     String primerTipo = regEnt.getString();
                     String segundoTipo = regEnt.getString();
 
+                    if (primerTipo == null && segundoTipo == null){
+                        primerTipo = primerEvolucion;
+                        segundoTipo = segundaEvolucion;
+                        primerEvolucion = null;
+                        segundaEvolucion = null;
+                    }
+
                     if (segundoTipo == null) {
                         segundoTipo = primerTipo;
                         primerTipo = segundaEvolucion;
                         segundaEvolucion = null;
                     }
-
                     pokemonLectura = new Basico(id, pokemon, primerEvolucion, segundaEvolucion, primerTipo, segundoTipo);
                 }
                 // Ordena segun si el pokemon del archivo en la linea es de tipo Primera Evolucion.
@@ -238,6 +244,7 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
      * Despliega todos los pokemons dado un tipo desde teclado.
      */
     public void desplegarPorTipo() {
+        StdOut.println("<RECUERDE QUE LA PRIMERA LETRA DEBE SER EN MAYUSCULA>");
         StdOut.print("Ingrese el tipo de pokemons que desea desplegar: ");
         String tipo = StdIn.readString();
         // Se busca al tipo dado por el usuario.
@@ -294,6 +301,7 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
      * Metodo que solicita un nombre para luego buscarlo y desplegarlo segun las condiciones.
      */
     public void buscarNombre() {
+        StdOut.println("<RECUERDE QUE LA PRIMERA LETRA DEBE SER EN MAYUSCULA>");
         StdOut.print("Ingrese nombre el pokemon a buscar: ");
         String nombre = StdIn.readString();
 
