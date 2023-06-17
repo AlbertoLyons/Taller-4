@@ -299,14 +299,8 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
             pokedex.desplieguePokemonBusquedaPersonalizada(pokemon);
             // Valida si el pokemon es de tipo basico
             if (pokemon instanceof Basico){
-                if (((Basico) pokemon).getPrimerEvolucion() != null || ((Basico) pokemon).getSegundaEvolucion() != null){
-                    if (((Basico) pokemon).getPrimerEvolucion() != null && ((Basico) pokemon).getSegundaEvolucion() != null){
-                        despliegueEvolucionesBasico((Basico) pokemon);
-                    } else if (((Basico) pokemon).getPrimerEvolucion() != null) {
-                        despliegueEvolucionesBasico((Basico) pokemon);
-                    } else if (((Basico) pokemon).getSegundaEvolucion() != null) {
-                        despliegueEvolucionesBasico((Basico) pokemon);
-                    }
+                if (((Basico) pokemon).getPrimerEvolucion() != null){
+                    despliegueEvolucionesBasico((Basico) pokemon);
                 }else {
                     pokedex.desplieguePokemon(pokemon);
                 }
@@ -397,8 +391,12 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
                         StdOut.println("El pokemon " + pokemon.getNombre() + " no posee primer evolucion.");
                         StdOut.println("");
                     }else {
-                        StdOut.println("La primera evolucion del pokemon " + pokemon.getNombre() + " es: " + pokemon.getPrimerEvolucion());
-                        StdOut.println("");
+                        StdOut.println("Informacion de la primera evolucion del pokemon " + pokemon.getNombre());
+                         Pokemon pokemonPrimeraEvolucion = pokedex.obtenerPokemonPorNombre(pokemon.getPrimerEvolucion());
+                        pokedex.desplieguePokemon(pokemonPrimeraEvolucion);
+                        despliegueEvolucionesPrimeraEvolucion((PrimeraEvolucion) pokemonPrimeraEvolucion);
+                        // La funcion de este return es no tener que devolverse al menu anterior sucesivamente (en caso de haber navegado hartas veces este se devolvia menu por menu   )
+                        return;
                     }
                 }
                 case "2" -> {
@@ -406,8 +404,12 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
                         StdOut.println("El pokemon " + pokemon.getNombre() + " no posee segunda evolucion.");
                         StdOut.println("");
                     }else {
-                        StdOut.println("La segunda evolucion del pokemon " + pokemon.getNombre() + " es: " + pokemon.getSegundaEvolucion());
-                        StdOut.println("");
+                        StdOut.println("Informacion de la segunda evolucion del pokemon " + pokemon.getNombre());
+                        Pokemon pokemonSegundaEvolucion = pokedex.obtenerPokemonPorNombre(pokemon.getSegundaEvolucion());
+                        pokedex.desplieguePokemon(pokemonSegundaEvolucion);
+                        despliegueEvolucionesSegundaEvolucion((SegundaEvolucion) pokemonSegundaEvolucion);
+                        // La funcion de este return es no tener que devolverse al menu anterior sucesivamente (en caso de haber navegado hartas veces este se devolvia menu por menu)
+                        return;
                     }
                 }
                 case "3" -> {
@@ -433,8 +435,8 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
         while (true){
             StdOut.println("""   
                             ------ OPCIONES -----
-                            [1] Desplegar segunda evolucion
-                            [2] Desplegar etapa basica
+                            [1] Desplegar etapa basica
+                            [2] Desplegar segunda evolucion
                             [3] Salir
                             ---------------------
                                                       """);
@@ -443,18 +445,25 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
 
             switch (opcion){
                 case "1" ->{
+                    StdOut.println("Informacion de la etapa basica del pokemon " + pokemon.getNombre());
+                    Pokemon pokemonBasico = pokedex.obtenerPokemonPorNombre(pokemon.getBasico());
+                    pokedex.desplieguePokemon(pokemonBasico);
+                    despliegueEvolucionesBasico((Basico) pokemonBasico);
+                    // La funcion de este return es no tener que devolverse al menu anterior sucesivamente (en caso de haber navegado hartas veces este se devolvia menu por menu)
+                    return;
+                }
+                case "2" ->{
                     if (pokemon.getSegundaEvolucion() == null){
                         StdOut.println("El pokemon " + pokemon.getNombre() + " no posee segunda evolucion.");
                         StdOut.println("");
                     }else {
-                        StdOut.println("La segunda evolucion del pokemon " + pokemon.getNombre() + " es: " + pokemon.getSegundaEvolucion());
-                        StdOut.println("");
+                        StdOut.println("Informacion de la segunda evolucion del pokemon " + pokemon.getNombre());
+                        Pokemon pokemonSegundaEvolucion = pokedex.obtenerPokemonPorNombre(pokemon.getSegundaEvolucion());
+                        pokedex.desplieguePokemon(pokemonSegundaEvolucion);
+                        despliegueEvolucionesSegundaEvolucion((SegundaEvolucion) pokemonSegundaEvolucion);
+                        // La funcion de este return es no tener que devolverse al menu anterior sucesivamente (en caso de haber navegado hartas veces este se devolvia menu por menu)
+                        return;
                     }
-                }
-                case "2" ->{
-                    StdOut.println("La etapa basica del pokemon " + pokemon.getNombre() + " es: " + pokemon.getBasico());
-                    StdOut.println("");
-
                 }
                 case "3" -> {
                     StdOut.println("Saliendo...");
@@ -479,8 +488,9 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
         while (true) {
             StdOut.println("""   
                     ------ OPCIONES -----
-                    [1] Desplegar primera evolucion
-                    [2] Salir
+                    [1] Desplegar etapa basica
+                    [2] Desplegar primera evolucion
+                    [3] Salir
                     ---------------------
                                               """);
             StdOut.print("Ingrese la opcion deseada: ");
@@ -488,13 +498,25 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
 
             switch (opcion){
                 case "1" ->{
-                    StdOut.println("La primera evolucion del pokemon " + pokemon.getNombre() + " es: " + pokemon.getPrimeraEvolucion());
-                    StdOut.println("");
-
+                    StdOut.println("Informacion de la etapa basica del pokemon " + pokemon.getNombre());
+                    Pokemon pokemonBasico = pokedex.obtenerPokemonPorNombre(pokemon.getBasico());
+                    pokedex.desplieguePokemon(pokemonBasico);
+                    despliegueEvolucionesBasico((Basico) pokemonBasico);
+                    // La funcion de este return es no tener que devolverse al menu anterior sucesivamente (en caso de haber navegado hartas veces este se devolvia menu por menu)
+                    return;
                 }
                 case "2" -> {
+                    StdOut.println("Informacion de la primera evolucion del pokemon " + pokemon.getNombre());
+                    Pokemon pokemonPrimeraEvolucion = pokedex.obtenerPokemonPorNombre(pokemon.getPrimeraEvolucion());
+                    pokedex.desplieguePokemon(pokemonPrimeraEvolucion);
+                    despliegueEvolucionesBasico((Basico) pokemonPrimeraEvolucion);
+                    // La funcion de este return es no tener que devolverse al menu anterior sucesivamente (en caso de haber navegado hartas veces este se devolvia menu por menu)
+                    return;
+                }
+                case "3" ->{
                     StdOut.println("Saliendo...");
                     StdOut.println("");
+                    // La funcion de este return es no tener que devolverse al menu anterior sucesivamente (en caso de haber navegado hartas veces este se devolvia menu por menu)
                     return;
                 }
                 default -> {

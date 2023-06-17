@@ -319,6 +319,7 @@ public class ListaNodoDoble {
             StdOut.println("PRIMER TIPO: " + pokemon.getPrimerTipo());
             StdOut.println("SEGUNDO TIPO: " + pokemon.getSegundoTipo());
         }
+
     }
 
     /**

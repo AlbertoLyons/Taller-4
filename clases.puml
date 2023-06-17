@@ -32,14 +32,11 @@ package models {
     }
     class ListaNodoDoble {
      - tamanio: int
-     + listaNodoDobleCircular()
-     + agregar(posicion: int, pokemon: Pokemon): boolean
+     + listaNodoDoble()
+     + agregar(pokemon: Pokemon): void
      + desplieguePokemon(pokemon: Pokemon): void
      + desplegarID(id: String): void
-
      + contieneID(id: String): boolean
-     + ordenarAlfabeticamenteArray(): ArrayList<String>
-     + LinkedList(): LinkedList<NodoDoble>
      + obtenerPokemonPorId(id: String): Pokemon
      + contieneNombre(nombre: String): boolean
      + obtenerPokemonPorNombre(nombre: String): Pokemon
@@ -47,10 +44,10 @@ package models {
      + desplegarTipo(tipo: String): void
      + recorrerAtrasCuartoRequerimiento(): void
      + ordenar(comienzo: String): void
-
-     + despliegueEvoluciones(): void
-
+     + desplieguePokemonBusquedaPersonalizada(pokemon: Pokemon): void
      + getTamanio(): int
+     + ordenarAlfabeticamenteArray(): ArrayList<String>
+     + LinkedList(): LinkedList<NodoDoble>
     }
 }
 package services {
@@ -69,11 +66,8 @@ package services {
      + buscarNombre(): void
      + buscarID(): void
      + despliegueEvolucionesBasico(pokemon: Basico): void
-     + desplegarporBusqueda(): void
-
      + despliegueEvolucionesPrimerEvolucion(pokemon: PrimeraEvolucion): void
-
-     + despluegueSegundaEvolucion(pokemon: SegundaEvolucion): void
+     + despliegueEvolucionesSegundaEvolucion(pokemon: SegundaEvolucion): void
 
     }
 }
