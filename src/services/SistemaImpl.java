@@ -313,6 +313,11 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
             pokedex.desplieguePokemonBusquedaPersonalizada(pokemon);
             // Valida si el pokemon es de tipo basico.
             if (pokemon instanceof Basico){
+                if (((Basico) pokemon).getPrimerEvolucion() == null && ((Basico) pokemon).getSegundaEvolucion() == null){
+                    StdOut.println("El pokemon no posee evoluciones. Volviendo al menu principal...");
+                    StdOut.println("");
+                    return;
+                }
                 despliegueEvolucionesBasico((Basico) pokemon);
                 // Valida si el pokemon es de tipo primera evolucion.
             } else if (pokemon instanceof PrimeraEvolucion) {
@@ -343,11 +348,14 @@ public class SistemaImpl implements Sistema{ //Hereda la clase interface Sistema
             pokedex.desplieguePokemonBusquedaPersonalizada(pokemon);
             // Valida si el pokemon es de tipo basico.
             if (pokemon instanceof Basico){
-                // Verifica si el basico tiene primer evolucion.
+                if (((Basico) pokemon).getPrimerEvolucion() == null && ((Basico) pokemon).getSegundaEvolucion() == null){
+                    StdOut.println("El pokemon no posee evoluciones. Volviendo al menu principal...");
+                    StdOut.println("");
+                    return;
+                }
                 despliegueEvolucionesBasico((Basico) pokemon);
                 // Valida si el pokemon es de tipo primera evolucion.
             } else if (pokemon instanceof PrimeraEvolucion) {
-                // Verifica si tiene segunda evolucion.
                 despliegueEvolucionesPrimeraEvolucion((PrimeraEvolucion) pokemon);
                 // Valida si el pokemon es de tipo segunda evolucion.
             } else if (pokemon instanceof SegundaEvolucion) {
